@@ -1,0 +1,57 @@
+product,title,selection_count,Small,Large,Normal
+Subs,Cheese,0,6.50,7.95,
+Subs,Cheese,1,7.00,8.45,
+Subs,Italian,0,6.50,7.95,
+Subs,Italian,1,7.00,8.45,
+Subs,Ham+Cheese,0,6.50,7.95,
+Subs,Ham+Cheese,1,7.00,8.45,
+Subs,Meatball,0,6.50,7.95,
+Subs,Meatball,1,7.00,8.45,
+Subs,Tuna,0,6.50,7.95,
+Subs,Tuna,1,7.00,8.45,
+Subs,Turkey,0,7.50,8.50,
+Subs,Turkey,1,8.00,9.00,
+Subs,Chicken Parmigiana,0,7.50,8.50,
+Subs,Chicken Parmigiana,1,8.00,9.00,
+Subs,Eggplant Parmigiana,0,6.50,7.95,
+Subs,Eggplant Parmigiana,1,7.00,8.45,
+Subs,Steak,0,6.50,7.95,
+Subs,Steak,1,7.00,8.45,
+Subs,Steak+Cheese,0,6.95,8.50,
+Subs,Steak+Cheese,1,7.45,9.00,
+Subs,Steak+Cheese,2,7.95,9.50,
+Subs,Steak+Cheese,3,8.45,10.00,
+Subs,Steak+Cheese,4,8.95,10.50,
+Subs,Sausage Peppers & Onions,0,,,8.50
+Subs,Sausage Peppers & Onions,1,,,9.00
+Subs,Hamburger,0,4.60,6.95,
+Subs,Hamburger,1,5.10,7.45,
+Subs,Cheeseburger,0,5.10,7.45,
+Subs,Cheeseburger,1,5.60,7.95,
+Subs,Fried Chicken,0,6.95,8.50,
+Subs,Fried Chicken,1,7.45,9.00,
+Subs,Veggie,0,6.95,8.50,
+Subs,Veggie,1,7.45,9.00,
+Pizza,Regular Pizza,0,12.70,17.95,
+Pizza,Regular Pizza,1,13.70,19.95,
+Pizza,Regular Pizza,2,15.20,21.95,
+Pizza,Regular Pizza,3,16.20,23.95,
+Pizza,Regular Pizza,4,17.75,25.95,
+Pizza,Sicilian Pizza,0,24.45,38.70,
+Pizza,Sicilian Pizza,1,26.45,40.70,
+Pizza,Sicilian Pizza,2,28.45,42.70,
+Pizza,Sicilian Pizza,3,29.45,44.70,
+Pizza,Sicilian Pizza,4,30.45,45.70,
+Pasta,Baked Ziti w/Mozzarella,0,,,6.50
+Pasta,Baked Ziti w/Meatballs,0,,,8.75
+Pasta,Baked Ziti w/Chicken,0,,,9.75
+Salads,Garden Salad,0,,,6.25
+Salads,Greek Salad,0,,,8.25
+Salads,Antipasto,0,,,8.25
+Salads,Salad w/Tuna,0,,,8.25
+Dinner Platters,Garden Salad,0,40.00,65.00,
+Dinner Platters,Greek Salad,0,50.00,75.00,
+Dinner Platters,Antipasto,0,50.00,75.00,
+Dinner Platters,Baked Ziti,0,40.00,65.00,
+Dinner Platters,Meatball Parm,0,50.00,75.00,
+Dinner Platters,Chicken Parm,0,55.00,85.00,

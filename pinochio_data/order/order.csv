@@ -1,0 +1,31 @@
+title,product,selection_limit,size_choice
+Regular Pizza,Pizza,4,1
+Sicilian Pizza,Pizza,4,1
+Cheese,Subs,1,1
+Italian,Subs,1,1
+Ham+Cheese,Subs,1,1
+Meatball,Subs,1,1
+Tuna,Subs,1,1
+Turkey,Subs,1,1
+Chicken Parmigiana,Subs,1,1
+Eggplant Parmigiana,Subs,1,1
+Steak,Subs,1,1
+Steak+Cheese,Subs,4,1
+Sausage Peppers & Onions,Subs,1,0
+Hamburger,Subs,1,1
+Cheeseburger,Subs,1,1
+Fried Chicken,Subs,1,1
+Veggie,Subs,1,1
+Baked Ziti w/Mozzarella,Pasta,0,0
+Baked Ziti w/Meatballs,Pasta,0,0
+Baked Ziti w/Chicken,Pasta,0,0
+Garden Salad,Salads,0,0
+Greek Salad,Salads,0,0
+Antipasto,Salads,0,0
+Salad w/Tuna,Salads,0,0
+Garden Salad,Dinner Platters,0,1
+Greek Salad,Dinner Platters,0,1
+Antipasto,Dinner Platters,0,1
+Baked Ziti,Dinner Platters,0,1
+Meatball Parm,Dinner Platters,0,1
+Chicken Parm,Dinner Platters,0,1
