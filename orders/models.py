@@ -1,13 +1,37 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
-class Products(models.Model):
-    product = models.CharField(max_length=32)
+class Product(models.Model):
+    product = models.CharField(max_length=32, unique=True)
+    def __str__(self):
+        return f"{self.product}"
+
+class Order(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    title = models.CharField(max_length=32)
+    selection_limit = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(4)])
 
     def __str__(self):
-        return f"Product: {self.product}"
+        return f"{self.product} - {self.title}"
+    #https://stackoverflow.com/questions/12454829/django-auto-insert-rows-into-database
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super(Order, self).save(*args, **kwargs)
+        if is_new:
+            print("Got here")
+            for t in range(self.selection_limit+1):
+                cd = Option.objects.get_or_create(order=self,selection_count=t,option_name="Selection(s)")
+                print(cd)
 
-class Prices(models.Model):
+class Option(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    selection_count = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(4)])
+    option_name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return f"{self.order} #{self.selection_count} {self.option_name}"
+
+class Price(models.Model):
     SMALL = "SM"
     LARGE = "LG"
     NORMAL = "NM"
@@ -16,16 +40,10 @@ class Prices(models.Model):
         (LARGE, "Large"),
         (NORMAL, "Normal")
     ]
-
+    option = models.ForeignKey(Option, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     size = models.CharField(max_length=2, choices=SIZE_CHOICES, default=NORMAL)
 
     def __str__(self):
-        return f"{self.size} : ${self.price}"
+        return f"{self.option} {self.size} : ${self.price}"
 
-class Orders(models.Model):
-
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    price = models.ForeignKey(Prices, on_delete=models.CASCADE)
-    title = models.CharField(max_length=32)
-    topping_code = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(4)])
