@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet"> 
+    <title>Pinochio's Pizza {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <div class="navbar-overlay">
+        <div id="overlay-container">
+            <div id="overlay-split1"></div>
+            <div id="overlay-split2"></div>
+            <div id="overlay-split3"></div>
+        </div>
+    </div>
+    <nav class="navbar">
+        <ul class="navbar-ul">
+            <li class="navbar-item">
+                <div id="navbar-logo">
+                    <a href="#" class="navbar-link"><img src="{% static 'menu/pinocchio_72.gif' %}" id="logo"> 
+                        <span id ="navbar-linkheading">
+                            Pinochio's Pizza
+                        </span>
+                    </a>
+                </div>
+            </li>
+
+            <li class="navbar-item">
+                <a href="#" class="navbar-link">
+                    <span class="navbar-linktext">
+                        Menu
+                    </span>
+                </a>
+            </li>
+            <li class="navbar-item">
+                <a href="#" class="navbar-link">
+                    <span class="navbar-linktext">
+                        Order Online
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    
+</body>
+</html>

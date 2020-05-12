@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-# Create your models here.
+
 class Product(models.Model):
     product = models.CharField(max_length=32, unique=True)
     def __str__(self):
@@ -18,7 +18,6 @@ class Order(models.Model):
         is_new = self.pk is None
         super(Order, self).save(*args, **kwargs)
         if is_new:
-            #print("Got here")
             for t in range(self.selection_limit+1):
                 cd = Option.objects.get_or_create(order=self, selection_count=t)
                 print(cd)

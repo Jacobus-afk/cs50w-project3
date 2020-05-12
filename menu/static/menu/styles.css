@@ -1,0 +1,108 @@
+:root
+{
+    font-size: 20px;
+    font-family: 'Fira Sans', sans-serif;
+    --txtcolor: black;
+    --nav-size: 5rem;
+    --body-padding: 15rem;
+}
+
+body
+{
+    margin: 0;
+    padding: 0 var(--body-padding);
+    margin-left: 10px;
+}
+
+.navbar-overlay
+{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: var(--nav-size);
+    
+}
+#overlay-container
+{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+#overlay-split1
+{
+    background-color: #239346;
+    width: var(--body-padding);
+    height: 100%;
+}
+#overlay-split2
+{
+    background-color: white;
+    width: auto;
+    height: 100%;
+}
+#overlay-split3
+{
+    background-color: #be0027;
+    width: var(--body-padding);
+    height: 100%;
+}
+.navbar
+{
+    width: 100%;
+    height: var(--nav-size);
+}
+
+.navbar-ul
+{
+    height: 100%;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+.navbar-item
+{
+    height: 100%;
+    padding-right: 10px;
+}
+#navbar-logo
+{
+    height: 100%;
+    /*border: 2px solid;*/
+    width: 12rem;
+    display: inline-block;
+    position: relative;
+}
+#logo
+{
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#navbar-linkheading
+{
+    padding-left: 5px;
+    position: absolute;
+    height: 100%;
+    text-transform: uppercase;
+    color: var(--txtcolor);
+    font-weight: bold;
+    font-size: 1.6rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    transform-origin: 0 10px;
+    transform: scaleY(1.5);
+}
+.navbar-link
+{
+    text-decoration: none;
+}
+
+.navbar-linktext
+{
+    text-transform: uppercase;
+    color: var(--txtcolor);
+    font-weight: bold;
+    letter-spacing: 0.3ch;
+}
