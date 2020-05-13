@@ -1,0 +1,18 @@
+{% extends "menu/base.html" %}
+{% block title %}- Menu{% endblock %}
+{% block content %}
+    <h1>Menu</h1>
+
+    {% for product, orders in products.items %}
+        <h2>{{ product }}</h2>
+        {% for order, options in orders.items %}
+            <h3>{{ order }}</h3>
+            {% for option, prices in options.items %}
+                <h4>{{ option }}</h4>
+                {% for size, price in prices.items %}
+                    <h5>{{ size }} : {{ price }}</h5>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endblock content %}
