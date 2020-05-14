@@ -1,8 +1,35 @@
 {% extends "menu/base.html" %}
+{% load static %}
 {% block title %}- Menu{% endblock %}
 {% block content %}
-    <h1>Menu</h1>
+    <div class="sub-navbar">
+        <ul class="navbar-ul">
+            {% for product in products %}
+                <li class="navbar-item">
+                    <a href="#" id="{{ product }}" name="{{ product }}" class="navbar-link">
+                        <span class="subnav-linktext">
+                            {{ product }}
+                        </span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 
+    <div id="menu-items">
+
+    </div>
+
+    {{ products|json_script:"products_var" }}
+    <script src="{% static 'menu/menu.js' %}">
+    </script>
+    
+{% endblock content %}
+
+    <!--    
+    <h1>Menu</h1>
+    <script id="products_var" type="application/json">"{{ products|escapejs }}"</script>
+    const products = JSON.parse("{{ products|escapejs }}");
     {% for product, orders in products.items %}
         <h2>{{ product }}</h2>
         {% for order, options in orders.items %}
@@ -15,4 +42,5 @@
             {% endfor %}
         {% endfor %}
     {% endfor %}
-{% endblock content %}
+     
+    -->
