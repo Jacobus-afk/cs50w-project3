@@ -1,13 +1,10 @@
-// let products = "";
 document.addEventListener("DOMContentLoaded", () => {
     const anchors = document.anchors;
     const menu_items = document.getElementById("menu-items");
     products = JSON.parse(document.getElementById("products_var").textContent);
-    // products = JSON.parse(products);
-    // console.log(products);
+
     for (i = 0; i < anchors.length; i++) {
         anchors[i].addEventListener('click', (event) => {
-            //console.log(event.currentTarget.name);
             build_menu(event.currentTarget.name);
         });
     }
@@ -29,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const iterate = (obj, prev_element) => {
             const element = document.createElement('div');
             element.className = "div-"+obj.legend;
-            // console.log(obj.legend);
+
             Object.keys(obj).forEach(key => {
                 if (key === 'legend') { return; }
                 console.log(key)
@@ -48,6 +45,4 @@ document.addEventListener("DOMContentLoaded", () => {
         iterate(orders, element);
         menu_items.append(element);
     }
-
-    //console.log("got here");
 })

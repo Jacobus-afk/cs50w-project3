@@ -4,14 +4,14 @@
     font-family: 'Fira Sans', sans-serif;
     --txtcolor: black;
     --nav-size: 5rem;
-    --body-padding: 15vw;/*15rem;*/
+    --body-padding: 15vw;
     --subnav-size: 2.5rem;
     --default-margin: 10px;
 }
 
 body
 {
-    margin: 0;/* 10px;*/
+    margin: 0;
     padding: 0 var(--body-padding);
     margin-left: var(--default-margin);
 }
@@ -71,7 +71,6 @@ body
 .navbar-div
 {
     height: 100%;
-    /*border: 2px solid;*/
     width: auto;
     display: inline-block;
     position: relative;
@@ -90,8 +89,6 @@ body
 {
     padding-left: 5px;
     position: absolute;
-    /*overflow-wrap: break-word;
-    word-wrap: break-word;*/
 }
 .navbar-link
 {
@@ -102,25 +99,20 @@ body
 
 .navbar-linktext
 {
-    /*position: absolute;*/
     display: inline-block;
-    /*height: 100%;*/
     text-transform: uppercase;
     color: var(--txtcolor);
     font-weight: bold;
     letter-spacing: 0.3ch;
     transform-origin: 0 10px;
     transform: scale(1,1.5);
-    /*transform: scaleY(1.5);*/
     font-size: 1.6rem;
 }
 
 .sub-navbar
 {
     width: 100%;
-    /*margin-right: 10px;*/
     height: var(--subnav-size);
-    /*border: 1px solid;*/
 }
 
 .subnav-linktext
