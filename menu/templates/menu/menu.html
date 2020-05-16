@@ -16,12 +16,15 @@
         </ul>
     </div>
 
+    <form action
     <div id="menu-items">
 
     </div>
-
-    {{ products|json_script:"products_var" }}
-    <script src="{% static 'menu/menu.js' %}">
+<!--
+    {{ products|json_script:"products_var" }}    -->
+    <script>
+        let csrftoken = '{{ csrf_token }}';
     </script>
-    
+    <script src="{% static 'menu/menu.js' %}"></script>
+
 {% endblock content %}
