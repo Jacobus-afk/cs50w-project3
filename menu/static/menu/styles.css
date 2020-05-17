@@ -121,6 +121,12 @@ body
     text-transform: uppercase;
 }
 
+#menu-items
+{
+    display: flex;
+    justify-content: flex-start;
+}
+
 .div-order
 {
     font-size: 1.2rem;

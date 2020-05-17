@@ -59,3 +59,13 @@ def post_option(request):
         opt_list = list(options.values())
         return JsonResponse({"options": opt_list}, status=200)
     return JsonResponse({"error": ""}, status=400)
+
+def post_price(request):
+    if request.is_ajax and request.method == "POST":
+        title = request.POST["order_title"]
+        sel_cnt = request.POST["sel_cnt"]
+        prices = Price.objects.filter(option__order__title=title, option__selection_count=sel_cnt)
+        price_list = list(prices.values())
+        return JsonResponse({"prices": price_list}, status=200)
+    return JsonResponse({"error": ""}, status=400)
+    #price = Price.objects.filter(option__order__title=title, option__selection_count=0)
