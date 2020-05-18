@@ -122,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     const selection = helper.create_radio_input("option", option_name, option_name);
                     const cnt = i;
                     selection.onclick = () => {
-
                         build_prices(order_id, cnt);
                     };
                     const label = helper.create_label(option_name, option_name);
@@ -138,84 +137,55 @@ document.addEventListener("DOMContentLoaded", () => {
                 const num = helper.create_num_input(0, 0, topping_lim);
                 num.hidden = true;
 
-                const add_sel = helper.create_radio_input("option", "Add_Topping", "Add_Topping")
+                const add_sel = helper.create_radio_input("option", "Add_Topping", "Add_Topping");
+                const add_label = helper.create_label("Add_Topping", "Add Topping");
+
+                const rem_sel = helper.create_radio_input("option", "Remove_Topping", "Remove_Topping");
+                const rem_label = helper.create_label("Remove_Topping", "Remove Topping");
+                helper.sel_and_label_toggle(rem_sel, rem_label, true);
+                
                 add_sel.onclick = () => {
                     num.value++;
                     const cnt = num.value;
                     if (cnt < topping_lim) {
-
                         build_prices(order_id, cnt);
-
-                        rem_sel.disabled = false;
-                        //rem_sel.hidden = false;
-                        rem_label.hidden = false;
+                        helper.sel_and_label_toggle(rem_sel, rem_label, false);
                     }
                     else if (cnt == topping_lim) {
-
                         build_prices(order_id, cnt);
-                        rem_sel.disabled = false;
-                        //rem_sel.hidden = false;
-                        rem_label.hidden = false;
-                        add_sel.disabled = true;
-                        //add_sel.hidden = true;
-                        add_label.hidden = true;
-                        add_label.disabled = true;
+                        helper.sel_and_label_toggle(rem_sel, rem_label, false);
+                        helper.sel_and_label_toggle(add_sel, add_label, true);
                     }
                     else {
-                        add_sel.disabled = true;
-                        //add_sel.hidden = true;
-                        add_label.hidden = true;
-                        add_label.disabled = true;
+                        helper.sel_and_label_toggle(add_sel, add_label, true);
                         num.value = topping_lim;
                     }
                 }
-                const rem_sel = helper.create_radio_input("option", "Remove_Topping", "Remove_Topping")
-                rem_sel.disabled = true;
-                //rem_sel.hidden = true;
+
                 rem_sel.onclick = () => {
                     num.value--;
                     const cnt = num.value;
                     if (cnt > 0) {
-                        //console.log("how many toppings: " + cnt)
                         build_prices(order_id, cnt);
-                        add_sel.disabled = false;
-                        //add_sel.hidden = false;
-                        add_label.hidden = false;
-                        add_label.disabled = false;
+                        helper.sel_and_label_toggle(add_sel, add_label, false);
                     }
                     else if (cnt == 0) {
-                        //console.log("how many toppings: " + cnt)
                         build_prices(order_id, cnt);
-                        rem_sel.disabled = true;
-                        //rem_sel.hidden = true;
-                        rem_label.hidden = true;
-                        add_sel.disabled = false;
-                        //add_sel.hidden = false;
-                        add_label.hidden = false;
-                        add_label.disabled = false;
+                        helper.sel_and_label_toggle(rem_sel, rem_label, true);
+                        helper.sel_and_label_toggle(add_sel, add_label, false);
                     }
                     else {
-                        rem_sel.disabled = true;
-                        //rem_sel.hidden = true;
-                        rem_label.hidden = true;
+                        helper.sel_and_label_toggle(rem_sel, rem_label, true);
                         num.value = 0;
                     }
                 }
 
-                const add_label = document.createElement("label");
-                add_label.htmlFor = "Add_Topping";
-                add_label.innerHTML = "Add Topping";
-                const rem_label = document.createElement("label");
-                rem_label.htmlFor = "Remove_Topping";
-                rem_label.innerHTML = "Remove Topping";
-                rem_label.hidden = true;
                 option_div.append(num);
                 option_div.append(add_sel);
                 option_div.append(add_label);
                 option_div.append(br);
                 option_div.append(rem_sel);
                 option_div.append(rem_label);
-
             }
 
             menu_items.append(option_div);
@@ -244,11 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const sel_lim = orders[i].selection_limit;
             const br = document.createElement("BR");
             const selection = helper.create_radio_input("title", title, title);
-            /*const selection = document.createElement("input");
-            selection.type = "radio";
-            selection.name = "title";
-            selection.value = title;
-            selection.id = title;*/
+
             selection.onclick = () => {
                 build_options(id, sel_lim);
             };
@@ -260,7 +226,6 @@ document.addEventListener("DOMContentLoaded", () => {
             order_div.append(label);
             order_div.append(br);
 
-            //console.log(orders[i]);
         }
         menu_items.append(order_div);
     }
@@ -270,7 +235,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // console.log(product)
         try {
             const data = await ajax_req({ "product": product }, "/ajax/order")
-            // console.log(data);
             build_orders(data.orders);
         }
         catch (err) {

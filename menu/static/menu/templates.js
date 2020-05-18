@@ -25,6 +25,8 @@ export function create_label(htmlfor, innnerhtml) {
     return label;
 }
 
-export function toggle_inputs(input_on, input_off) {
 
+export function sel_and_label_toggle(sel, label, value) {
+    sel.disabled = value;
+    label.hidden = value;
 }
