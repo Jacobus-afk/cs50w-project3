@@ -12,23 +12,6 @@ def home(request):
 
 
 def menu(request):
-
-    # prod_dict = {}
-    # for prod in Product.objects.filter():
-    #     order_dict = {"legend":"order"}
-    #     for order in Order.objects.filter(product=prod):
-    #         opt_dict = {"legend":"option"}
-    #         for opt in Option.objects.filter(order=order):
-    #             price_dict = {"legend":"price"}
-    #             for price in Price.objects.filter(option=opt):
-    #                 price_dict[price.size] = price.price
-    #             opt_dict[opt.option_name] = price_dict
-    #         order_dict[order.title] = opt_dict
-    #     prod_dict[prod.product] = order_dict
-
-    #     context = {
-    #     "products": prod_dict
-
     products = Product.objects.values_list("product", flat=True)
     # test = Price.objects.filter(option__order__product__product='Pizza')
     # p = Product.objects.get(product='Pizza')
@@ -54,17 +37,17 @@ def post_order(request):
 
 def post_option(request):
     if request.is_ajax and request.method == "POST":
-        title = request.POST["order_title"]
-        options = Option.objects.filter(order__title=title)
+        order_id = request.POST["order_id"]
+        options = Option.objects.filter(order__id=order_id)
         opt_list = list(options.values())
         return JsonResponse({"options": opt_list}, status=200)
     return JsonResponse({"error": ""}, status=400)
 
 def post_price(request):
     if request.is_ajax and request.method == "POST":
-        title = request.POST["order_title"]
+        order_id = request.POST["order_id"]
         sel_cnt = request.POST["sel_cnt"]
-        prices = Price.objects.filter(option__order__title=title, option__selection_count=sel_cnt)
+        prices = Price.objects.filter(option__order__id=order_id, option__selection_count=sel_cnt)
         price_list = list(prices.values())
         return JsonResponse({"prices": price_list}, status=200)
     return JsonResponse({"error": ""}, status=400)
