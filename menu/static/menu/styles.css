@@ -127,19 +127,17 @@ body
     justify-content: flex-start;
 }
 
-.div-order
+.order-div
 {
-    font-size: 1.2rem;
+    margin-right: 10px;
 }
 
-.div-option
+.option-div
 {
-    padding-left: var(--default-margin);
-    font-size: 1rem;
+    margin-right: 10px;
 }
 
-.div-price
+.price-div
 {
-    padding-left: var(--default-margin);
-    font-size: 0.8rem;
+    margin-right: 10px;
 }

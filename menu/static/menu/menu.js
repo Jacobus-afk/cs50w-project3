@@ -49,10 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function build_prices(order_id, sel_cnt) {
         clear_menu(price_div);
+        const old_price = document.getElementById("price-div");
+        if (old_price) {
+            menu_items.removeChild(old_price);
+        }
+
         const helper = await import("./templates.js");
         // console.log(order_title, i);
         price_div = document.createElement("div");
         price_div.className = "price-div";
+        price_div.id = "price-div";
         try {
             req = {
                 "order_id": order_id,
@@ -69,17 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const id = prices[i].id;
                 
                 const selection = helper.create_radio_input("price", size, size);
-                /*const selection = document.createElement("input");
-                selection.type = "radio";
-                selection.name = "price";
-                selection.value = size;
-                selection.id = size;*/
                 selection.onclick = () => {
                     place_order(size, id)
                 }
-                const label = document.createElement("label");
-                label.htmlFor = size;
-                label.innerHTML = size + ": " + price;
+                const label = helper.create_label(size, size + ": " + price);
+
                 price_div.append(selection);
                 price_div.append(label);
                 price_div.append(br);
@@ -92,17 +92,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_options(order_id, sel_lim) {
-        //console.log("got here - build_options "+ order_title );
-        clear_menu(price_div);
         clear_menu(option_div);
+        const old_opt = document.getElementById("option-div");
+        if (old_opt) {
+            menu_items.removeChild(old_opt);
+        }
+        //clear_menu(price_div);
+        
         const helper = await import("./templates.js");
         option_div = document.createElement("div");
         option_div.className = "option-div";
-
+        option_div.id = "option-div";
         let topping_lim = 0;
         try {
             const data = await ajax_req({ "order_id": order_id }, "/ajax/option");
-            // console.log(data);
             const options = data.options;
 
             for (i in options) {
@@ -117,19 +120,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 else {
                     const selection = helper.create_radio_input("option", option_name, option_name);
-                    /*const selection = document.createElement("input");
-                    selection.type = "radio";
-                    selection.name = "option";
-                    selection.value = option_name;
-                    selection.id = option_name;*/
                     const cnt = i;
                     selection.onclick = () => {
 
                         build_prices(order_id, cnt);
                     };
-                    const label = document.createElement("label");
-                    label.htmlFor = option_name;
-                    label.innerHTML = option_name;
+                    const label = helper.create_label(option_name, option_name);
 
                     option_div.append(selection);
                     option_div.append(label);
@@ -139,57 +135,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (topping_lim) {
                 const br = document.createElement("BR");
-                const num = document.createElement("input");
-                num.type = "number";
-                num.value = 0;
-                num.min = 0;
-                num.max = topping_lim;
-                //console.log("topping lim: " + topping_lim);
+                const num = helper.create_num_input(0, 0, topping_lim);
                 num.hidden = true;
+
                 const add_sel = helper.create_radio_input("option", "Add_Topping", "Add_Topping")
-                /*const add_sel = document.createElement("input");
-                add_sel.type = "radio";
-                add_sel.name = "option";
-                add_sel.value = "Add_Topping";
-                add_sel.id = "Add_Topping";*/
                 add_sel.onclick = () => {
                     num.value++;
                     const cnt = num.value;
                     if (cnt < topping_lim) {
-                        //console.log("how many toppings: " + cnt)
+
                         build_prices(order_id, cnt);
 
                         rem_sel.disabled = false;
-                        rem_sel.hidden = false;
+                        //rem_sel.hidden = false;
                         rem_label.hidden = false;
                     }
                     else if (cnt == topping_lim) {
-                        //console.log("how many toppings: " + cnt)
+
                         build_prices(order_id, cnt);
                         rem_sel.disabled = false;
-                        rem_sel.hidden = false;
+                        //rem_sel.hidden = false;
                         rem_label.hidden = false;
                         add_sel.disabled = true;
-                        add_sel.hidden = true;
+                        //add_sel.hidden = true;
                         add_label.hidden = true;
                         add_label.disabled = true;
                     }
                     else {
                         add_sel.disabled = true;
-                        add_sel.hidden = true;
+                        //add_sel.hidden = true;
                         add_label.hidden = true;
                         add_label.disabled = true;
                         num.value = topping_lim;
                     }
                 }
                 const rem_sel = helper.create_radio_input("option", "Remove_Topping", "Remove_Topping")
-                /*const rem_sel = document.createElement("input");
-                rem_sel.type = "radio";
-                rem_sel.name = "option";
-                rem_sel.value = "Remove_Topping";
-                rem_sel.id = "Remove_Topping";*/
                 rem_sel.disabled = true;
-                rem_sel.hidden = true;
+                //rem_sel.hidden = true;
                 rem_sel.onclick = () => {
                     num.value--;
                     const cnt = num.value;
@@ -197,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         //console.log("how many toppings: " + cnt)
                         build_prices(order_id, cnt);
                         add_sel.disabled = false;
-                        add_sel.hidden = false;
+                        //add_sel.hidden = false;
                         add_label.hidden = false;
                         add_label.disabled = false;
                     }
@@ -205,16 +187,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         //console.log("how many toppings: " + cnt)
                         build_prices(order_id, cnt);
                         rem_sel.disabled = true;
-                        rem_sel.hidden = true;
+                        //rem_sel.hidden = true;
                         rem_label.hidden = true;
                         add_sel.disabled = false;
-                        add_sel.hidden = false;
+                        //add_sel.hidden = false;
                         add_label.hidden = false;
                         add_label.disabled = false;
                     }
                     else {
                         rem_sel.disabled = true;
-                        rem_sel.hidden = true;
+                        //rem_sel.hidden = true;
                         rem_label.hidden = true;
                         num.value = 0;
                     }
@@ -250,8 +232,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function build_orders(orders) {
+    async function build_orders(orders) {
         clear_menu(order_div);
+        const helper = await import("./templates.js");
         order_div = document.createElement("div");
         order_div.className = "order-div";
 
@@ -260,11 +243,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const title = orders[i].title;
             const sel_lim = orders[i].selection_limit;
             const br = document.createElement("BR");
-            const selection = document.createElement("input");
+            const selection = helper.create_radio_input("title", title, title);
+            /*const selection = document.createElement("input");
             selection.type = "radio";
             selection.name = "title";
             selection.value = title;
-            selection.id = title;
+            selection.id = title;*/
             selection.onclick = () => {
                 build_options(id, sel_lim);
             };
