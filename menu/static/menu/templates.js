@@ -32,5 +32,9 @@ export function sel_and_label_toggle(sel, label, value) {
 }
 
 export function appendicitis(parent, ...children) {
-    children.map((child) => parent.append(child));
+    const brk = document.createElement("BR");
+    children.map((child) => {
+        parent.append(child)
+        parent.append(brk);
+    });
 }
