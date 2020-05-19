@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let order_div = document.createElement("div");
     let option_div = document.createElement("div");
     let price_div = document.createElement("div");
-    
-
 
     for (i = 0; i < anchors.length; i++) {
         anchors[i].addEventListener('click', (event) => {
@@ -79,10 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     place_order(size, id)
                 }
                 const label = helper.create_label(size, size + ": " + price);
-
-                price_div.append(selection);
-                price_div.append(label);
-                price_div.append(br);
+                helper.appendicitis(price_div, selection, label, br);
+                // price_div.append(selection);
+                // price_div.append(label);
+                // price_div.append(br);
             }
             menu_items.append(price_div);
         }
@@ -103,12 +101,31 @@ document.addEventListener("DOMContentLoaded", () => {
         option_div = document.createElement("div");
         option_div.className = "option-div";
         option_div.id = "option-div";
-        let topping_lim = 0;
+        // let topping_lim = 0;
         try {
             const data = await ajax_req({ "order_id": order_id }, "/ajax/option");
             const options = data.options;
 
-            for (i in options) {
+            const base_opts = options.filter((option) => {
+                return !(option.option_name.includes("Topping"));
+            });
+            //console.log(base_opts);
+            if (base_opts) {
+                base_opts.map((opt) => {
+                    const br = document.createElement("BR");
+                    const option_name = opt.option_name;
+                    const cnt = opt.selection_count;
+                    const selection = helper.create_radio_input("option", option_name, option_name);
+                    selection.onclick = () => {
+                        build_prices(order_id, cnt);
+                    };
+                    const label = helper.create_label(option_name, option_name);
+                    helper.appendicitis(option_div, selection, label, br);
+                })
+            }
+            const topping_lim = options.length - base_opts.length;
+            console.log(topping_lim);
+            /*for (i in options) {
                 const br = document.createElement("BR");
                 const option_name = data.options[i].option_name;
                 if (option_name.includes("Topping")) {
@@ -125,12 +142,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         build_prices(order_id, cnt);
                     };
                     const label = helper.create_label(option_name, option_name);
-
-                    option_div.append(selection);
-                    option_div.append(label);
-                    option_div.append(br);
+                    helper.appendicitis(option_div, selection, label, br);
+                    // option_div.append(selection);
+                    // option_div.append(label);
+                    // option_div.append(br);
                 }
-            }
+            }*/
 
             if (topping_lim) {
                 const br = document.createElement("BR");
@@ -179,13 +196,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         num.value = 0;
                     }
                 }
-
-                option_div.append(num);
-                option_div.append(add_sel);
-                option_div.append(add_label);
-                option_div.append(br);
-                option_div.append(rem_sel);
-                option_div.append(rem_label);
+                helper.appendicitis(option_div, num, add_sel, add_label, br, rem_sel, rem_label);
+                // option_div.append(num);
+                // option_div.append(add_sel);
+                // option_div.append(add_label);
+                // option_div.append(br);
+                // option_div.append(rem_sel);
+                // option_div.append(rem_label);
             }
 
             menu_items.append(option_div);
@@ -218,13 +235,12 @@ document.addEventListener("DOMContentLoaded", () => {
             selection.onclick = () => {
                 build_options(id, sel_lim);
             };
-            const label = document.createElement("label");
-            label.htmlFor = title;
-            label.innerHTML = title;
+            const label = helper.create_label(title, title);
 
-            order_div.append(selection);
-            order_div.append(label);
-            order_div.append(br);
+            helper.appendicitis(order_div, selection, label, br);
+            // order_div.append(selection);
+            // order_div.append(label);
+            // order_div.append(br);
 
         }
         menu_items.append(order_div);

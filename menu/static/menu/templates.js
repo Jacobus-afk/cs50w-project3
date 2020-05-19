@@ -30,3 +30,7 @@ export function sel_and_label_toggle(sel, label, value) {
     sel.disabled = value;
     label.hidden = value;
 }
+
+export function appendicitis(parent, ...children) {
+    children.map((child) => parent.append(child));
+}
