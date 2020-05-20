@@ -5,7 +5,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pizza.settings")
 import django
 
 django.setup()
-from orders.models import Order, Price, Product, Option
+from orders.models import Order, Price, Product, Option, Topping, ToppingKeeper
 from django.apps import apps
 
 pathlist = []
@@ -45,6 +45,7 @@ def populate_orders():
             reader = csv.DictReader(csvf)
             for row in reader:
                 p, _ = Product.objects.get_or_create(product=row["product"])
+                #for p in Product.objects.filter(product=row["product"]):
                 o, _ = Order.objects.get_or_create(
                     product=p,
                     size_choice=bool(int(row["size_choice"])),
@@ -91,20 +92,49 @@ def populate_prices():
                         )
 
 
+def populate_toppings():
+    topping_product = {}
+    for entry in pathlist:
+        with open(entry) as csvf:
+            reader = csv.DictReader(csvf)
+            for key in reader.fieldnames:
+                try:
+                    prod_id = Product.objects.only('id').get(product=key).id
+                    topping_product[key] = prod_id
+                except:
+                    pass
+            for row in reader:
+                topping = row["topping"]
+                #Pizza = bool(int(row["Pizza"]))
+                #Subs = bool(int(row["Subs"]))
+
+                t, _ = Topping.objects.get_or_create(topping=topping)
+                for k,v in topping_product.items():
+                    if int(row[k]):
+                        tk, _ = ToppingKeeper.objects.get_or_create(topping=t, product_id=v)
+
 if __name__ == "__main__":
 
     get_paths(
         ["./pinochio_data/product/",]
-    )  # "./pinochio_data/order/"])
+    )
     populate_products()
+
+    get_paths(
+        ["./pinochio_data/topping/",]
+    )
+    populate_toppings()
+
     get_paths(
         ["./pinochio_data/order/",]
     )
     populate_orders()
+
     get_paths(
         ["./pinochio_data/option",]
     )
     populate_options()
+
     get_paths(
         ["./pinochio_data/price",]
     )

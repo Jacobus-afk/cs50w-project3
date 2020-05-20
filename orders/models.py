@@ -9,6 +9,21 @@ class Product(models.Model):
         return f"{self.product}"
 
 
+class Topping(models.Model):
+    topping = models.CharField(max_length=32, unique=True)
+
+    def __str__(self):
+        return f"{self.topping}"
+
+
+class ToppingKeeper(models.Model):
+    topping = models.ForeignKey(Topping, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.product} allows {self.topping} as topping"
+
+
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     title = models.CharField(max_length=32)
