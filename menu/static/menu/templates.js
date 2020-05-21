@@ -20,11 +20,11 @@ export function create_num_input(value, min, max) {
 
 export function create_label(htmlfor, innnerhtml) {
     const label = document.createElement("label");
+    label.className = "order-label";
     label.htmlFor = htmlfor;
     label.innerHTML = innnerhtml;
     return label;
 }
-
 
 export function sel_and_label_toggle(sel, label, value) {
     sel.disabled = value;
