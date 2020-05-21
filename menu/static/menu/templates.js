@@ -23,6 +23,7 @@ export function create_label(htmlfor, innnerhtml) {
     label.className = "order-label";
     label.htmlFor = htmlfor;
     label.innerHTML = innnerhtml;
+    // label.hidden = true;
     return label;
 }
 
