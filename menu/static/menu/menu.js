@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     order_div.id = "order-div";
     option_div.id = "option-div";
     price_div.id = "price-div";
-    topping_add_div.id = "topping-div";
+    topping_add_div.id = "topping-add-div";
     var div_ids = []
     //console.log("divids length: "+div_ids.length);
     for (i = 0; i < anchors.length; i++) {
@@ -89,8 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
         clear_menu(topping_add_div);
         const helper = await import("./templates.js");
         topping_add_div = document.createElement("div");
-        topping_add_div.className = "topping-div";
-        topping_add_div.id = "topping-div";
+        topping_add_div.className = "topping-add-div";
+        topping_add_div.id = "topping-add-div";
         build_prices(order_id, 0);
         if (topping_lim) {
             const num = helper.create_num_input(0, 0, topping_lim);
@@ -224,30 +224,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function clear_menu(parent) {
-        while (parent.firstChild) {
+        /*while (parent.firstChild) {
             parent.removeChild(parent.lastChild);
-        }
+        }*/
         let idx = undefined;
+        let old_elem = undefined;
         idx = div_ids.indexOf(parent.id);
-        console.log("clear menu div_ids: ", div_ids);
-        console.log("clear menu parent id: " + parent.id);
+        // console.log("clear menu div_ids: ", div_ids);
+        // console.log("clear menu parent id: " + parent.id);
         if (idx != -1) {
             for (i = idx; i < div_ids.length; i++) {
                 old_elem = document.getElementById(div_ids[i]);
                 if (old_elem) {
-                    console.log("clear menu removed: " + old_elem.id);
+                    console.log("clear menu children removed: " + old_elem.id);
                     menu_items.removeChild(old_elem);
                 }
-                div_ids.length = idx;
-                console.log("clear menu div_ids: ", div_ids);
             }
+            div_ids.length = idx;
+            console.log("clear menu div_ids: ", div_ids);
         }
 
 
-        old_elem = document.getElementById(parent.id);
+        /*old_elem = document.getElementById(parent.id);
         if ((old_elem) && (old_elem.id != "menu-items")) {
             menu_items.removeChild(old_elem);
-        }
+            console.log("clear menu parent removed: " + old_elem.id);
+        }*/
     }
 
     async function build_menu(product) {
