@@ -6,10 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let option_div = document.createElement("div");
     let price_div = document.createElement("div");
     let topping_add_div = document.createElement("div");
+    let topping_div = document.createElement("div");
     order_div.id = "order-div";
     option_div.id = "option-div";
     price_div.id = "price-div";
     topping_add_div.id = "topping-add-div";
+    topping_div.id = "topping-add-div";
 
     for (i = 0; i < anchors.length; i++) {
         anchors[i].addEventListener('click', (event) => {
@@ -41,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 fdata.append(key, req[key]);
             }
             fdata.append('csrfmiddlewaretoken', csrftoken);
-
             xhr.send(fdata);
         });
     }
@@ -51,8 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_prices(order_id, sel_cnt) {
-        //clear_menu(price_div);
-
         const helper = await import("./templates.js");
         let prev_price = undefined;
         price_div = document.createElement("div");
@@ -67,10 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // console.log(data);
             const prices = data.prices;
 
-            for (i in prices) {
-                const size = prices[i].size;
-                const price = prices[i].price;
-                const id = prices[i].id;
+            prices.map(_price => {
+                const size = _price.size;
+                const price = _price.price;
+                const id = price.id;
 
                 const label = helper.create_label(size, size + ": " + price);
                 label.onclick = () => {
@@ -78,17 +77,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     place_order(size, id);
                 }
                 helper.appendicitis(price_div, label);
-            }
+            })
             menu_items.append(price_div);
-            // div_ids.push(price_div.id);
         }
         catch (err) {
             console.log("Build Price Error: " + err);
         }
     }
 
+    async function list_toppings(order_id) {
+        const helper = await import("./templates.js");
+        topping_div = document.createElement("div");
+        topping_div.className = "topping-div";
+        topping_div.id = "topping-div";
+        try {
+            const data = await ajax_req({ "order_id": order_id }, "/ajax/topping");
+            console.log(data);
+        }
+        catch(err) {
+            console.log("List Toppings Error: ", err);
+        }
+    }
+
     async function build_add_toppings(topping_lim, order_id) {
-        
         const helper = await import("./templates.js");
         topping_add_div = document.createElement("div");
         topping_add_div.className = "topping-add-div";
@@ -101,52 +112,37 @@ document.addEventListener("DOMContentLoaded", () => {
             const add_label = helper.create_label("Add_Topping", "+");
             const rem_label = helper.create_label("Remove_Topping", "-");
             const cnt_label = helper.create_label("Topping_Count", 0);
-            rem_label.style.visibility = "hidden"; // = true;
+            rem_label.style.visibility = "hidden";
 
             add_label.onclick = () => {
                 topping_cnt++;
-
                 if (topping_cnt < topping_lim) {
-                    clear_menu(topping_add_div);
-                    build_prices(order_id, topping_cnt);
-                    rem_label.style.visibility = "visible"; // = false;
+                    rem_label.style.visibility = "visible";
                 }
                 else {
-                //else if (topping_cnt == topping_lim) {
-                    clear_menu(topping_add_div);
-                    build_prices(order_id, topping_cnt);
-                    rem_label.style.visibility = "visible"; // = false;
-                    add_label.style.visibility = "hidden"; // = true;
                     topping_cnt = topping_lim;
+                    rem_label.style.visibility = "visible";
+                    add_label.style.visibility = "hidden";
                 }
+                list_toppings(order_id)
+                clear_menu(topping_add_div);
+                build_prices(order_id, topping_cnt);
                 cnt_label.innerHTML = topping_cnt;
-                // else {
-                //     add_label.style.visibility = "hidden"; // = true;
-                //     topping_cnt = topping_lim;
-                // }
             }
 
             rem_label.onclick = () => {
                 topping_cnt--;
-
                 if (topping_cnt > 0) {
-                    clear_menu(topping_add_div);
-                    build_prices(order_id, topping_cnt);
-                    add_label.style.visibility = "visible"; // = false;
+                    add_label.style.visibility = "visible";
                 }
                 else {
-                // else if (topping_cnt == 0) {
-                    clear_menu(topping_add_div);
-                    build_prices(order_id, topping_cnt);
-                    rem_label.style.visibility = "hidden"; // = true;
-                    add_label.style.visibility = "visible"; // = false;
                     topping_cnt = 0;
+                    rem_label.style.visibility = "hidden";
+                    add_label.style.visibility = "visible";
                 }
+                clear_menu(topping_add_div);
+                build_prices(order_id, topping_cnt);
                 cnt_label.innerHTML = topping_cnt;
-                // else {
-                //     rem_label.style.visibility = "hidden"; // = true;
-                //     topping_cnt = 0;
-                // }
             }
             helper.appendicitis(topping_add_div, cnt_label, add_label, rem_label);
             menu_items.append(topping_add_div);
@@ -154,7 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_options(order_id, sel_lim, ) {
-        // clear_menu(option_div);
         const helper = await import("./templates.js");
         let prev_option = undefined;
         option_div = document.createElement("div");
@@ -185,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.onclick = () => {
                     prev_option = update_active_class(prev_option, label);
                     if (cnt === 0) {
-                        //clear_menu(topping_add_div);
                         clear_menu(option_div);
                         return build_add_toppings(topping_lim, order_id);
                     }
@@ -195,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 helper.appendicitis(option_div, label);
             })
             menu_items.append(option_div);
-            // div_ids.push(option_div.id);
         }
         catch (err) {
             console.log("Build Options Error:" + err);
@@ -234,7 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
             helper.appendicitis(order_div, label);
         })
         menu_items.append(order_div);
-        // div_ids.push(order_div.id);
     }
 
     function clear_menu(older_brother) {
@@ -252,7 +244,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_menu(product) {
-        // clear_menu(order_div);
         // console.log(product)
         try {
             const data = await ajax_req({ "product": product }, "/ajax/order");

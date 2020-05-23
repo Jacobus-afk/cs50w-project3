@@ -8,6 +8,10 @@
     --subnav-size: 2.5rem;
     --default-margin: 10px;
 }
+*
+{
+    box-sizing: border-box;
+}
 
 body
 {
@@ -131,13 +135,15 @@ body
 {
     display: inline-block;
     cursor: pointer;
-    margin: 5px;
+    padding: 5px;
+    border: solid white;
     
 }
 
 .active-sel
 {
-    border: solid;
+    border: solid black;
+    
 }
 
 .order-div
@@ -147,6 +153,12 @@ body
 
 .option-div
 {
+    margin-right: 10px;
+}
+
+.topping-add-div
+{
+    font-size: 1.6rem;
     margin-right: 10px;
 }
 
