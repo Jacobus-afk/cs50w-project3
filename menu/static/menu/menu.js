@@ -97,69 +97,59 @@ document.addEventListener("DOMContentLoaded", () => {
         clear_menu(topping_add_div);
         build_prices(order_id, 0);
         if (topping_lim > 0) {
-            // const num = helper.create_num_input(0, 0, topping_lim);
-            // num.hidden = true;
             let topping_cnt = 0;
             const add_label = helper.create_label("Add_Topping", "+");
             const rem_label = helper.create_label("Remove_Topping", "-");
+            const cnt_label = helper.create_label("Topping_Count", 0);
             rem_label.style.visibility = "hidden"; // = true;
 
             add_label.onclick = () => {
                 topping_cnt++;
-                //num.value++;
-                // const cnt = num.value;
-                // console.log(topping_cnt);
+
                 if (topping_cnt < topping_lim) {
-                // if (cnt < topping_lim) {
-                    clear_menu(topping_add_div);
-                    // build_prices(order_id, cnt);
-                    build_prices(order_id, topping_cnt);
-                    rem_label.style.visibility = "visible"; // = false;
-                }
-                else if (topping_cnt == topping_lim) {
-                // else if (cnt == topping_lim) {
                     clear_menu(topping_add_div);
                     build_prices(order_id, topping_cnt);
-                    // build_prices(order_id, cnt);
                     rem_label.style.visibility = "visible"; // = false;
-                    add_label.style.visibility = "hidden"; // = true;
                 }
                 else {
+                //else if (topping_cnt == topping_lim) {
+                    clear_menu(topping_add_div);
+                    build_prices(order_id, topping_cnt);
+                    rem_label.style.visibility = "visible"; // = false;
                     add_label.style.visibility = "hidden"; // = true;
                     topping_cnt = topping_lim;
-                    //num.value = topping_lim;
                 }
+                cnt_label.innerHTML = topping_cnt;
+                // else {
+                //     add_label.style.visibility = "hidden"; // = true;
+                //     topping_cnt = topping_lim;
+                // }
             }
 
             rem_label.onclick = () => {
                 topping_cnt--;
-                //num.value--;
-                //const cnt = num.value;
+
                 if (topping_cnt > 0) {
-                // if (cnt > 0) {
                     clear_menu(topping_add_div);
                     build_prices(order_id, topping_cnt);
-                    // build_prices(order_id, cnt);
-                    add_label.style.visibility = "visible"; // = false;
-                }
-                else if (topping_cnt == 0) {
-                // else if (cnt == 0) {
-                    clear_menu(topping_add_div);
-                    build_prices(order_id, topping_cnt);
-                    // build_prices(order_id, cnt);
-                    rem_label.style.visibility = "hidden"; // = true;
                     add_label.style.visibility = "visible"; // = false;
                 }
                 else {
+                // else if (topping_cnt == 0) {
+                    clear_menu(topping_add_div);
+                    build_prices(order_id, topping_cnt);
                     rem_label.style.visibility = "hidden"; // = true;
+                    add_label.style.visibility = "visible"; // = false;
                     topping_cnt = 0;
-                    //num.value = 0;
                 }
+                cnt_label.innerHTML = topping_cnt;
+                // else {
+                //     rem_label.style.visibility = "hidden"; // = true;
+                //     topping_cnt = 0;
+                // }
             }
-            // helper.appendicitis(topping_add_div, num, add_label, rem_label);
-            helper.appendicitis(topping_add_div, add_label, rem_label);
+            helper.appendicitis(topping_add_div, cnt_label, add_label, rem_label);
             menu_items.append(topping_add_div);
-            // div_ids.push(topping_add_div.id);
         }
     }
 
