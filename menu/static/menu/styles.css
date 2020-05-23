@@ -139,13 +139,7 @@ body
 {
     border: solid;
 }
-/*
-.disabled
-{
-    color: grey;
-    cursor: default;
-}
-*/
+
 .order-div
 {
     margin-right: 10px;

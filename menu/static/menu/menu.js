@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //console.log("divids length: "+div_ids.length);
     for (i = 0; i < anchors.length; i++) {
         anchors[i].addEventListener('click', (event) => {
+            while(menu_items.firstChild) {
+                menu_items.removeChild(menu_items.lastChild);
+            }
             build_menu(event.currentTarget.name);
         });
     }
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_prices(order_id, sel_cnt) {
-        clear_menu(price_div);
+        //clear_menu(price_div);
 
         const helper = await import("./templates.js");
         let prev_price = undefined;
@@ -86,34 +89,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_add_toppings(topping_lim, order_id) {
-        clear_menu(topping_add_div);
+        
         const helper = await import("./templates.js");
         topping_add_div = document.createElement("div");
         topping_add_div.className = "topping-add-div";
         topping_add_div.id = "topping-add-div";
+        
+        clear_menu(topping_add_div);
         build_prices(order_id, 0);
-        if (topping_lim) {
+        if (topping_lim > 0) {
             const num = helper.create_num_input(0, 0, topping_lim);
             num.hidden = true;
 
             const add_label = helper.create_label("Add_Topping", "+");
             const rem_label = helper.create_label("Remove_Topping", "-");
-            rem_label.hidden = true;
+            rem_label.style.visibility = "hidden"; // = true;
 
             add_label.onclick = () => {
                 num.value++;
                 const cnt = num.value;
                 if (cnt < topping_lim) {
+                    clear_menu(topping_add_div);
                     build_prices(order_id, cnt);
-                    rem_label.hidden = false;
+                    rem_label.style.visibility = "visible"; // = false;
                 }
                 else if (cnt == topping_lim) {
+                    clear_menu(topping_add_div);
                     build_prices(order_id, cnt);
-                    rem_label.hidden = false;
-                    add_label.hidden = true;
+                    rem_label.style.visibility = "visible"; // = false;
+                    add_label.style.visibility = "hidden"; // = true;
                 }
                 else {
-                    add_label.hidden = true;
+                    add_label.style.visibility = "hidden"; // = true;
                     num.value = topping_lim;
                 }
             }
@@ -122,16 +129,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 num.value--;
                 const cnt = num.value;
                 if (cnt > 0) {
+                    clear_menu(topping_add_div);
                     build_prices(order_id, cnt);
-                    add_label.hidden = false;
+                    add_label.style.visibility = "visible"; // = false;
                 }
                 else if (cnt == 0) {
+                    clear_menu(topping_add_div);
                     build_prices(order_id, cnt);
-                    rem_label.hidden = true;
-                    add_label.hidden = false;
+                    rem_label.style.visibility = "hidden"; // = true;
+                    add_label.style.visibility = "visible"; // = false;
                 }
                 else {
-                    rem_label.hidden = true;
+                    rem_label.style.visibility = "hidden"; // = true;
                     num.value = 0;
                 }
             }
@@ -142,8 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_options(order_id, sel_lim, ) {
-        // clear_menu(price_div);
-        clear_menu(option_div);
+        // clear_menu(option_div);
         const helper = await import("./templates.js");
         let prev_option = undefined;
         option_div = document.createElement("div");
@@ -153,34 +161,36 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await ajax_req({ "order_id": order_id }, "/ajax/option");
             const options = data.options;
 
-            const base_opts = options.filter((option) => {
+            const base_options = options.filter((option) => {
                 return !(option.option_name.includes("Topping"));
             });
 
-            const topping_lim = options.length - base_opts.length;
-
-            if (base_opts) {
-                base_opts.map((opt) => {
-                    const option_name = opt.option_name;
-                    const cnt = opt.selection_count;
-                    if (option_name.includes("Selection(s)")) {
-                        return build_prices(order_id, cnt);
-                    }
-
-                    const label = helper.create_label(option_name, option_name);
-                    label.onclick = () => {
-                        prev_option = update_active_class(prev_option, label);
-                        if (cnt === 0) {
-                            build_add_toppings(topping_lim, order_id);
-                        }
-                        else {
-                            build_prices(order_id, cnt);
-                        }
-
-                    }
-                    helper.appendicitis(option_div, label);
-                })
+            if ((typeof base_options === "undefined")||(base_options.length === 0)) {
+                return;
             }
+
+            const topping_lim = options.length - base_options.length;
+            base_options.map((opt) => {
+                const option_name = opt.option_name;
+                const cnt = opt.selection_count;
+                if (option_name.includes("Selection(s)")) {
+                    clear_menu(option_div);
+                    return build_prices(order_id, cnt);
+                }
+
+                const label = helper.create_label(option_name, option_name);
+                label.onclick = () => {
+                    prev_option = update_active_class(prev_option, label);
+                    if (cnt === 0) {
+                        //clear_menu(topping_add_div);
+                        clear_menu(option_div);
+                        return build_add_toppings(topping_lim, order_id);
+                    }
+                    clear_menu(option_div);
+                    build_prices(order_id, cnt);
+                }
+                helper.appendicitis(option_div, label);
+            })
             menu_items.append(option_div);
             div_ids.push(option_div.id);
         }
@@ -201,12 +211,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_orders(orders) {
-        clear_menu(order_div);
+        
         const helper = await import("./templates.js");
         order_div = document.createElement("div");
         order_div.className = "order-div";
         order_div.id = "order-div";
-        let prev_order = undefined;
+        let prev_order = null;
         orders.map((order) => {
             const id = order.id;
             const title = order.title;
@@ -214,6 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const label = helper.create_label(title, title);
             label.onclick = () => {
+                clear_menu(order_div);
                 build_options(id, sel_lim);
                 prev_order = update_active_class(prev_order, label);
             }
@@ -223,40 +234,53 @@ document.addEventListener("DOMContentLoaded", () => {
         div_ids.push(order_div.id);
     }
 
-    function clear_menu(parent) {
-        /*while (parent.firstChild) {
-            parent.removeChild(parent.lastChild);
-        }*/
-        let idx = undefined;
-        let old_elem = undefined;
-        idx = div_ids.indexOf(parent.id);
-        // console.log("clear menu div_ids: ", div_ids);
-        // console.log("clear menu parent id: " + parent.id);
-        if (idx != -1) {
-            for (i = idx; i < div_ids.length; i++) {
-                old_elem = document.getElementById(div_ids[i]);
-                if (old_elem) {
-                    console.log("clear menu children removed: " + old_elem.id);
-                    menu_items.removeChild(old_elem);
-                }
-            }
-            div_ids.length = idx;
-            console.log("clear menu div_ids: ", div_ids);
+    function clear_menu(older_brother) {
+        // console.log("older brother: " + older_brother.id);
+        // child = document.getElementById(older_brother.id);
+        // if (menu_items.lastChild.id === older_brother.id) {
+        if (!menu_items.contains(document.getElementById(older_brother.id))) {
+            return;
         }
+        try {
+            while(menu_items.lastChild.id !== older_brother.id) {
+                menu_items.removeChild(menu_items.lastChild);
+            }
+        }
+        catch(err) {
+            console.log("clear_menu error: " + err);
+        }
+/*
+        Array.prototype.map.call(menu_items.children, child => {
+            console.log("menu items: " + child.id);
+        })
 
 
-        /*old_elem = document.getElementById(parent.id);
-        if ((old_elem) && (old_elem.id != "menu-items")) {
-            menu_items.removeChild(old_elem);
-            console.log("clear menu parent removed: " + old_elem.id);
-        }*/
+        const parent_idx = div_ids.indexOf(older_brother.id);
+        if (parent_idx === -1) {
+            return;
+        }
+        const abandoned_children = div_ids.filter((entry,index) => {
+            // return index >= parent_idx;
+            return index > parent_idx;
+        })
+
+        abandoned_children.map(child => {
+            const child_id = document.getElementById(child);
+            menu_items.removeChild(child_id);
+            console.log("removed " + child);
+        })
+
+
+        div_ids.length = parent_idx;
+        console.log("clear menu div_ids: ", div_ids);*/
     }
 
     async function build_menu(product) {
-        clear_menu(menu_items);
+        // clear_menu(order_div);
         // console.log(product)
         try {
             const data = await ajax_req({ "product": product }, "/ajax/order")
+            //
             build_orders(data.orders);
         }
         catch (err) {
