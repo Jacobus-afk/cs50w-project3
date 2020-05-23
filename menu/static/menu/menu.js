@@ -10,8 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     option_div.id = "option-div";
     price_div.id = "price-div";
     topping_add_div.id = "topping-add-div";
-    var div_ids = []
-    //console.log("divids length: "+div_ids.length);
+
     for (i = 0; i < anchors.length; i++) {
         anchors[i].addEventListener('click', (event) => {
             while(menu_items.firstChild) {
@@ -81,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 helper.appendicitis(price_div, label);
             }
             menu_items.append(price_div);
-            div_ids.push(price_div.id);
+            // div_ids.push(price_div.id);
         }
         catch (err) {
             console.log("Build Price Error: " + err);
@@ -98,55 +97,69 @@ document.addEventListener("DOMContentLoaded", () => {
         clear_menu(topping_add_div);
         build_prices(order_id, 0);
         if (topping_lim > 0) {
-            const num = helper.create_num_input(0, 0, topping_lim);
-            num.hidden = true;
-
+            // const num = helper.create_num_input(0, 0, topping_lim);
+            // num.hidden = true;
+            let topping_cnt = 0;
             const add_label = helper.create_label("Add_Topping", "+");
             const rem_label = helper.create_label("Remove_Topping", "-");
             rem_label.style.visibility = "hidden"; // = true;
 
             add_label.onclick = () => {
-                num.value++;
-                const cnt = num.value;
-                if (cnt < topping_lim) {
+                topping_cnt++;
+                //num.value++;
+                // const cnt = num.value;
+                // console.log(topping_cnt);
+                if (topping_cnt < topping_lim) {
+                // if (cnt < topping_lim) {
                     clear_menu(topping_add_div);
-                    build_prices(order_id, cnt);
+                    // build_prices(order_id, cnt);
+                    build_prices(order_id, topping_cnt);
                     rem_label.style.visibility = "visible"; // = false;
                 }
-                else if (cnt == topping_lim) {
+                else if (topping_cnt == topping_lim) {
+                // else if (cnt == topping_lim) {
                     clear_menu(topping_add_div);
-                    build_prices(order_id, cnt);
+                    build_prices(order_id, topping_cnt);
+                    // build_prices(order_id, cnt);
                     rem_label.style.visibility = "visible"; // = false;
                     add_label.style.visibility = "hidden"; // = true;
                 }
                 else {
                     add_label.style.visibility = "hidden"; // = true;
-                    num.value = topping_lim;
+                    topping_cnt = topping_lim;
+                    //num.value = topping_lim;
                 }
             }
 
             rem_label.onclick = () => {
-                num.value--;
-                const cnt = num.value;
-                if (cnt > 0) {
+                topping_cnt--;
+                //num.value--;
+                //const cnt = num.value;
+                if (topping_cnt > 0) {
+                // if (cnt > 0) {
                     clear_menu(topping_add_div);
-                    build_prices(order_id, cnt);
+                    build_prices(order_id, topping_cnt);
+                    // build_prices(order_id, cnt);
                     add_label.style.visibility = "visible"; // = false;
                 }
-                else if (cnt == 0) {
+                else if (topping_cnt == 0) {
+                // else if (cnt == 0) {
                     clear_menu(topping_add_div);
-                    build_prices(order_id, cnt);
+                    build_prices(order_id, topping_cnt);
+                    // build_prices(order_id, cnt);
                     rem_label.style.visibility = "hidden"; // = true;
                     add_label.style.visibility = "visible"; // = false;
                 }
                 else {
                     rem_label.style.visibility = "hidden"; // = true;
-                    num.value = 0;
+                    topping_cnt = 0;
+                    //num.value = 0;
                 }
             }
-            helper.appendicitis(topping_add_div, num, add_label, rem_label);
+            // helper.appendicitis(topping_add_div, num, add_label, rem_label);
+            helper.appendicitis(topping_add_div, add_label, rem_label);
             menu_items.append(topping_add_div);
-            div_ids.push(topping_add_div.id);
+            // div_ids.push(topping_add_div.id);
         }
     }
 
@@ -192,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 helper.appendicitis(option_div, label);
             })
             menu_items.append(option_div);
-            div_ids.push(option_div.id);
+            // div_ids.push(option_div.id);
         }
         catch (err) {
             console.log("Build Options Error:" + err);
@@ -231,13 +244,10 @@ document.addEventListener("DOMContentLoaded", () => {
             helper.appendicitis(order_div, label);
         })
         menu_items.append(order_div);
-        div_ids.push(order_div.id);
+        // div_ids.push(order_div.id);
     }
 
     function clear_menu(older_brother) {
-        // console.log("older brother: " + older_brother.id);
-        // child = document.getElementById(older_brother.id);
-        // if (menu_items.lastChild.id === older_brother.id) {
         if (!menu_items.contains(document.getElementById(older_brother.id))) {
             return;
         }
@@ -249,38 +259,13 @@ document.addEventListener("DOMContentLoaded", () => {
         catch(err) {
             console.log("clear_menu error: " + err);
         }
-/*
-        Array.prototype.map.call(menu_items.children, child => {
-            console.log("menu items: " + child.id);
-        })
-
-
-        const parent_idx = div_ids.indexOf(older_brother.id);
-        if (parent_idx === -1) {
-            return;
-        }
-        const abandoned_children = div_ids.filter((entry,index) => {
-            // return index >= parent_idx;
-            return index > parent_idx;
-        })
-
-        abandoned_children.map(child => {
-            const child_id = document.getElementById(child);
-            menu_items.removeChild(child_id);
-            console.log("removed " + child);
-        })
-
-
-        div_ids.length = parent_idx;
-        console.log("clear menu div_ids: ", div_ids);*/
     }
 
     async function build_menu(product) {
         // clear_menu(order_div);
         // console.log(product)
         try {
-            const data = await ajax_req({ "product": product }, "/ajax/order")
-            //
+            const data = await ajax_req({ "product": product }, "/ajax/order");
             build_orders(data.orders);
         }
         catch (err) {
