@@ -132,27 +132,49 @@ body
 
 .subnav-linktext
 {
+    display: inline-block;
     color: var(--txtcolor);
     text-transform: uppercase;
+    padding: 5px;
+    border: solid white;
 }
+
+.fullscreen-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(90, 90, 90, 0.5);
+    z-index: 9999;
+  }
 
 .topping-popup
 {
     position: relative;
     visibility: hidden;
     display: inline-block;
-    left: 25%;
+    left: 30%;
+    top: 15%;
     /*width: auto;*/
+}
+
+.topping-popup .popup-div
+{
+    background-color: black;
+    z-index: 1;
+    position: absolute;
+    border-radius: 5px;
 }
 
 .topping-popup .topping-choices
 {
-    /*visibility: hidden;*/
-    background-color: #555;
-    border-radius: 5px;
+    /*background-color: #555;*/
+    /*border-radius: 5px;*/
     padding: 5px;
-    position: absolute;
-    z-index: 1;
+    /*position: absolute;*/
+    /*z-index: 1;*/
     white-space: nowrap;
 }
 
@@ -160,7 +182,16 @@ body
 {
     font-size: 1rem;
     text-decoration: none;
-    color: #fff;
+    color: white;
+}
+
+.topping-popup .topping-close
+{
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 /*
 .topping-popup .show
@@ -194,7 +225,7 @@ body
 .active-sel
 {
     border: solid black;
-    
+    border-radius: 5px;
 }
 
 .order-div

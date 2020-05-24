@@ -12,12 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
     price_div.id = "price-div";
     topping_add_div.id = "topping-add-div";
     topping_div.id = "topping-add-div";
-
+    let prev_product_span = null;
     for (i = 0; i < anchors.length; i++) {
         anchors[i].addEventListener('click', (event) => {
             while(menu_items.firstChild) {
                 menu_items.removeChild(menu_items.lastChild);
             }
+            const product_span = document.getElementById(event.currentTarget.name+"-span");
+            prev_product_span = update_active_class(prev_product_span, product_span);
             build_menu(event.currentTarget.name);
         });
     }
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function build_prices(order_id, sel_cnt) {
         const helper = await import("./templates.js");
-        let prev_price = undefined;
+        let prev_price = null;
         price_div = document.createElement("div");
         price_div.className = "price-div";
         price_div.id = "price-div";
@@ -69,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             prices.map(_price => {
                 const size = _price.size;
                 const price = _price.price;
-                const id = price.id;
+                const id = _price.id;
 
                 const label = helper.create_label(size, size + ": " + price);
                 label.onclick = () => {
@@ -92,12 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
         topping_div.id = "topping-div";
         try {
             const data = await ajax_req({ "order_id": order_id }, "/ajax/topping");
-            console.log(data);
-            const toppings = data.toppings;
-            const popup = document.getElementById("topping-popup");
-            popup.style.visibility = "visible";
-            const popup_choices = document.getElementById("topping-choices");
-            helper.create_topping_choices(toppings, popup_choices);
+            //console.log(data);
+            //const toppings = 
+            return data.toppings;
+            // return helper.create_topping_choices(toppings);
         }
         catch(err) {
             console.log("List Toppings Error: ", err);
@@ -109,9 +109,17 @@ document.addEventListener("DOMContentLoaded", () => {
         topping_add_div = document.createElement("div");
         topping_add_div.className = "topping-add-div";
         topping_add_div.id = "topping-add-div";
-        
+        const topping_list = await list_toppings(order_id);
+        let available_toppings = [];
+        let used_toppings = [];
+        topping_list.map(entity => {
+            available_toppings.push(entity.topping);
+        })
+        // console.log("available toppings: ", available_toppings);
+
         clear_menu(topping_add_div);
         build_prices(order_id, 0);
+
         if (topping_lim > 0) {
             let topping_cnt = 0;
             const add_label = helper.create_label("Add_Topping", "+");
@@ -119,7 +127,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const cnt_label = helper.create_label("Topping_Count", 0);
             rem_label.style.visibility = "hidden";
 
-            add_label.onclick = () => {
+            add_label.onclick = async () => {
+                try {
+                    const topping_choice = await helper.create_topping_choices(available_toppings);
+                    // console.log("Topping chosen: " + available_toppings.indexOf(topping_choice));
+                    available_toppings.splice(available_toppings.indexOf(topping_choice),1);
+                    used_toppings.push(topping_choice);
+                    console.log("used_toppings: ", used_toppings);
+                    // console.log("available toppings: ", available_toppings);
+                }
+                catch(err) {
+                    // console.log("add topping error: ", err);
+                    return;
+                }
+                
                 topping_cnt++;
                 if (topping_cnt < topping_lim) {
                     rem_label.style.visibility = "visible";
@@ -131,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 clear_menu(topping_add_div);
                 build_prices(order_id, topping_cnt);
-                list_toppings(order_id);
+                //list_toppings(order_id);
                 cnt_label.innerHTML = topping_cnt;
             }
 
@@ -156,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function build_options(order_id, sel_lim, ) {
         const helper = await import("./templates.js");
-        let prev_option = undefined;
+        let prev_option = null;
         option_div = document.createElement("div");
         option_div.className = "option-div";
         option_div.id = "option-div";

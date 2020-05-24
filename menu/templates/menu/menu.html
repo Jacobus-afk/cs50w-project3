@@ -7,7 +7,7 @@
             {% for product in products %}
                 <li class="navbar-item">
                     <a href="#" id="{{ product }}" name="{{ product }}" class="navbar-link">
-                        <span class="subnav-linktext">
+                        <span class="subnav-linktext" id="{{ product }}-span">
                             {{ product }}
                         </span>
                     </a>
@@ -15,13 +15,21 @@
             {% endfor %}
         </ul>
     </div>
-
-    <div class="topping-popup" id="topping-popup">
-        <div class="topping-choices" id="topping-choices">Test</div>
+    <div class="fullscreen-container" id="fullscreen-container">
+        <div class="topping-popup" id="topping-popup">
+        
+            <div class="popup-div">
+                <span class="topping-close" id="topping-close">&times;</span>
+                <div class="topping-choices" id="topping-choices"></div>
+            </div>
+            
+        </div>
     </div>
+
     <div id="menu-items">
-
     </div>
+
+
 <!--
     {{ products|json_script:"products_var" }}    -->
     <script>
