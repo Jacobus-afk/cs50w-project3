@@ -5,7 +5,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pizza.settings")
 import django
 
 django.setup()
-from orders.models import Order, Price, Product, Option, Topping, ToppingKeeper
+from orders.models import Order, Price, Product, Option, Topping#, ToppingKeeper
 from django.apps import apps
 
 pathlist = []
@@ -94,25 +94,27 @@ def populate_prices():
 
 def populate_toppings():
     topping_product = {}
+    bool_val = False
     for entry in pathlist:
         with open(entry) as csvf:
             reader = csv.DictReader(csvf)
             for key in reader.fieldnames:
                 try:
-                    prod_id = Product.objects.only('id').get(product=key).id
-                    topping_product[key] = prod_id
+                    prod_obj = Product.objects.get(product=key)
+                    topping_product[key] = prod_obj
                 except:
                     pass
             for row in reader:
                 topping = row["topping"]
+                def_choice = bool(int(row["default_choice"]))
                 #Pizza = bool(int(row["Pizza"]))
                 #Subs = bool(int(row["Subs"]))
 
-                t, _ = Topping.objects.get_or_create(topping=topping)
+                t, _ = Topping.objects.get_or_create(topping=topping, default_choice=def_choice)
                 for k,v in topping_product.items():
                     if int(row[k]):
-                        tk, _ = ToppingKeeper.objects.get_or_create(topping=t, product_id=v)
-
+                        #tk, _ = ToppingKeeper.objects.get_or_create(topping=t, product_id=v)
+                        t.products.add(v)
 if __name__ == "__main__":
 
     get_paths(

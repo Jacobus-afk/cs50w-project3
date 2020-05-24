@@ -93,6 +93,11 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const data = await ajax_req({ "order_id": order_id }, "/ajax/topping");
             console.log(data);
+            const toppings = data.toppings;
+            const popup = document.getElementById("topping-popup");
+            popup.style.visibility = "visible";
+            const popup_choices = document.getElementById("topping-choices");
+            helper.create_topping_choices(toppings, popup_choices);
         }
         catch(err) {
             console.log("List Toppings Error: ", err);
@@ -124,9 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     rem_label.style.visibility = "visible";
                     add_label.style.visibility = "hidden";
                 }
-                list_toppings(order_id)
                 clear_menu(topping_add_div);
                 build_prices(order_id, topping_cnt);
+                list_toppings(order_id);
                 cnt_label.innerHTML = topping_cnt;
             }
 

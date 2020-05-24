@@ -1,24 +1,20 @@
 from django.contrib import admin
 
-from .models import Product, Option, Price, Order, Topping, ToppingKeeper
-# Register your models here.
+from .models import Product, Option, Price, Order, Topping#, ToppingKeeper
 
-# class ToppingName(admin.ModelAdmin):
-#     model = ToppingKeeper
-#     list_display = ['get_product', 'get_topping', ]
+class ToppingInline(admin.StackedInline):
+    model = Topping.products.through
+    extra = 1
 
-#     def get_product(self, obj):
-#         return obj.product.product
-#     get_product.admin_order_field = 'product'
-#     get_product.short_description = 'Product'
+class ProductAdmin(admin.ModelAdmin):
+    inlines = [ToppingInline]
 
-#     def get_topping(self, obj):
-#         return obj.topping.topping
-#     get_topping.admin_order_field = 'topping'
-#     get_topping.short_description = 'Topping'
-admin.site.register(Product)
+class ToppingAdmin(admin.ModelAdmin):
+    filter_horizontal = ["products"]
+
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Order)
 admin.site.register(Option)
 admin.site.register(Price)
-admin.site.register(Topping)
-admin.site.register(ToppingKeeper)
+admin.site.register(Topping, ToppingAdmin)
+#admin.site.register(ToppingKeeper)

@@ -28,6 +28,7 @@ body
     height: var(--nav-size);
     
 }
+
 #overlay-container
 {
     display: flex;
@@ -35,24 +36,28 @@ body
     width: 100%;
     height: 100%;
 }
+
 #overlay-split1
 {
     background-color: #239346;
     width: var(--body-padding);
     height: 100%;
 }
+
 #overlay-split2
 {
     background-color: white;
     width: auto;
     height: 100%;
 }
+
 #overlay-split3
 {
     background-color: #be0027;
     width: var(--body-padding);
     height: 100%;
 }
+
 .navbar
 {
     width: 100%;
@@ -67,11 +72,13 @@ body
     display: flex;
     justify-content: space-between;
 }
+
 .navbar-item
 {
     height: 100%;
     padding-right: var(--default-margin);
 }
+
 .navbar-div
 {
     height: 100%;
@@ -79,21 +86,25 @@ body
     display: inline-block;
     position: relative;
 }
+
 #logo-div
 {
     width: 14rem;
 }
+
 #logo
 {
     max-width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 #navbar-linkheading
 {
     padding-left: 5px;
     position: absolute;
 }
+
 .navbar-link
 {
     display: inline-block;
@@ -125,6 +136,46 @@ body
     text-transform: uppercase;
 }
 
+.topping-popup
+{
+    position: relative;
+    visibility: hidden;
+    display: inline-block;
+    left: 25%;
+    /*width: auto;*/
+}
+
+.topping-popup .topping-choices
+{
+    /*visibility: hidden;*/
+    background-color: #555;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+.topping-popup a
+{
+    font-size: 1rem;
+    text-decoration: none;
+    color: #fff;
+}
+/*
+.topping-popup .show
+{
+    visibility: visible;
+    /*-webkit-animation: fadeIn 1s;*/
+    /*animation: fadeIn 1s;*/
+/*}*/
+/*
+@keyframes fadeIn
+{
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+*/
 #menu-items
 {
     display: flex;

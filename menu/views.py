@@ -4,7 +4,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from orders.models import Option, Order, Price, Product, ToppingKeeper
+from orders.models import Option, Order, Price, Product, Topping#, ToppingKeeper
 
 
 def home(request):
@@ -44,8 +44,12 @@ def post_topping(request):
     if request.is_ajax and request.method == "POST":
         order_id = request.POST["order_id"]
         o = Order.objects.get(id=order_id)
-        toppings = ToppingKeeper.objects.filter(product__product=o.product.product)
-        topping_list = list(toppings.values_list('topping__topping', flat=True))
-        # test = ToppingKeeper(limit_choices_to={'product__product': 'Pizza'})
+        toppings = Topping.objects.filter(products=o.product)
+        topping_list = list(toppings.values())
         return JsonResponse({"toppings": topping_list}, status=200)
     return JsonResponse({"error": ""}, status=400)
+    #     toppings = ToppingKeeper.objects.filter(product__product=o.product.product)
+    #     topping_list = list(toppings.values_list('topping__topping', flat=True))
+    #     # test = ToppingKeeper(limit_choices_to={'product__product': 'Pizza'})
+    #     return JsonResponse({"toppings": topping_list}, status=200)
+    # return JsonResponse({"error": ""}, status=400)

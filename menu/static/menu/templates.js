@@ -9,6 +9,23 @@ export function create_radio_input(name, value, id) {
     return element;
 }
 
+export function create_topping_choices(toppings, html_element) {
+    while(html_element.firstChild) {
+        html_element.removeChild(html_element.lastChild);
+    }
+    toppings.map(object => {
+        const brk = document.createElement("BR");
+        const name = object.topping;
+        const anchor = document.createElement("a");
+        anchor.href = "#";
+        anchor.id = name;
+        anchor.innerHTML = name;
+
+        html_element.append(anchor);
+        html_element.append(brk);
+    })
+}
+
 export function create_num_input(value, min, max) {
     const num = document.createElement("input");
     num.type = "number";

@@ -11,17 +11,17 @@ class Product(models.Model):
 
 class Topping(models.Model):
     topping = models.CharField(max_length=32, unique=True)
-
+    products = models.ManyToManyField(Product, blank=True, related_name="toppings")
+    default_choice = models.BooleanField(default=False);
     def __str__(self):
         return f"{self.topping}"
 
 
-class ToppingKeeper(models.Model):
-    topping = models.ForeignKey(Topping, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.product} allows {self.topping} as topping"
+# class ToppingKeeper(models.Model):
+#     topping = models.ForeignKey(Topping, on_delete=models.CASCADE)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+#     def __str__(self):
+#         return f"{self.product} allows {self.topping} as topping"
 
 
 class Order(models.Model):
