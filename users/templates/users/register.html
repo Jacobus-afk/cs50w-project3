@@ -1,0 +1,29 @@
+{% extends "menu/base.html" %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block title %} - Register{% endblock %}
+{% block content %}
+    <div class="register-form">
+        <div class="content-section bootstrapiso">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Join Today</legend>
+                    
+                    {% for field in form %}
+                        {{ field|add_class:"form-control-sm"|as_crispy_field }}
+                    {% endfor %}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Already have an account? <a class="ml-2" href="#">Sign In</a>
+                </small>
+            </div>
+        </div>
+        
+    </div>
+{% endblock content %}

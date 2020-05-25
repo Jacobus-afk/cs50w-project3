@@ -52,10 +52,12 @@ export function create_topping_choices(toppings) {
             close_popup();
             reject("Clicked close");
         };
-        /*window.onclick = () =>{
+        fullscreen_container.onclick = () => {
+        // window.onclick = () => {
+            // console.log();
             close_popup();
             reject("Clicked outside popup");
-        };*/
+        };
     });
 
 }

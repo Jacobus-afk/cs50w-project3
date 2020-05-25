@@ -1,13 +1,20 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--https://formden.com/blog/isolate-bootstrap-->
+    <!--https://github.com/cryptoapi/Isolate-Bootstrap-4.1-CSS-Themes-->
+    <link rel="stylesheet" href="{% static 'menu/bootstrapcustom.min.css' %}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'menu/bscalcfixes.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'menu/styles.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+    
     <title>Pinochio's Pizza {% block title %}{% endblock %}</title>
 </head>
+
 <body>
     <div class="navbar-overlay">
         <div id="overlay-container">
@@ -20,7 +27,8 @@
         <ul class="navbar-ul">
             <li class="navbar-item">
                 <div class="navbar-div" id="logo-div">
-                    <a href="{% url 'menu-home' %}" class="navbar-link"><img src="{% static 'menu/pinocchio_72.gif' %}" id="logo"> 
+                    <a href="{% url 'menu-home' %}" class="navbar-link"><img src="{% static 'menu/pinocchio_72.gif' %}"
+                            id="logo">
                         <span class="navbar-linktext" id="navbar-linkheading">
                             Pinochio's Pizza
                         </span>
@@ -50,9 +58,19 @@
             </li>
         </ul>
     </nav>
-    <main class="container">
+    <main class="main-container">
+        <div class="alert-div">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <span class="alert-closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
         {% block content %}{% endblock %}
     </main>
-    
+
+
 </body>
+
 </html>
