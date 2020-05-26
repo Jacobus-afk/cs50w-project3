@@ -9,4 +9,5 @@ urlpatterns = [
     path("ajax/price", views.post_price, name="menu-post-option"),
     path("ajax/topping", views.post_topping, name="menu-post-topping"),
     path("menu/", views.menu, name="menu-menu"),
+    path("checkout", views.checkout, name="menu-checkout")
 ]

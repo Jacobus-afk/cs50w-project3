@@ -1,0 +1,15 @@
+{% extends "menu/base.html" %}
+
+{% block title %} - Logout{% endblock %}
+{% block content %}
+<div class="register-form">
+        <div class="content-section bootstrapiso">
+            <legend class="border-bottom mb-4">Logged out</legend>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    <a href="{% url 'login' %}">Log in again</a>
+                </small>
+            </div>
+        </div>
+</div>
+{% endblock content %}

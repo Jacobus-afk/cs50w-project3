@@ -48,13 +48,45 @@
             </li>
             <li class="navbar-item">
                 <div class="navbar-div">
-                    <a href="#" class="navbar-link">
+                    <a href="{% url 'menu-checkout' %}" class="navbar-link">
                         <span class="navbar-linktext">
-                            Order Online
+                            Checkout
                         </span>
                     </a>
                 </div>
 
+            </li>
+
+            <li class="navbar-item navbar-access" >
+                {% if user.is_authenticated %}
+                <div class="navbar-div access-div">
+                    <a href="{% url 'logout' %}" class="navbar-link access-link">
+                        <span class="access-text">
+                            Log out
+                        </span>
+                    </a>
+                </div>
+                <div class="navbar-div access-div">
+                        <span class="access-text">
+                            &nbsp;
+                        </span>
+                </div>
+                {% else %}
+                <div class="navbar-div access-div">
+                    <a href="{% url 'login' %}" class="navbar-link access-link">
+                        <span class="access-text">
+                            Log in
+                        </span>
+                    </a>
+                </div>
+                <div class="navbar-div access-div">
+                    <a href="{% url 'register' %}" class="navbar-link access-link">
+                        <span class="access-text">
+                            Register
+                        </span>
+                    </a>
+                </div>
+                {% endif %}
             </li>
         </ul>
     </nav>

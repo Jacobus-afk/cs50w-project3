@@ -3,16 +3,22 @@ import json
 from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render
-
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from orders.models import Option, Order, Price, Product, Topping#, ToppingKeeper
 
 
 def home(request):
+    messages.success(request, f"Welcome home")
     return render(request, "menu/home.html")
 
 def menu(request):
     products = Product.objects.values_list("product", flat=True)
     return render(request, "menu/menu.html", {"products": list(products)})
+
+@login_required
+def checkout(request):
+    return render(request, "menu/checkout.html")
 
 # https://www.pluralsight.com/guides/work-with-ajax-django
 def post_order(request):

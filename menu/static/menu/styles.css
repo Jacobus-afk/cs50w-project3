@@ -79,12 +79,25 @@ body
     padding-right: var(--default-margin);
 }
 
+.navbar-access
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
 .navbar-div
 {
     height: 100%;
     width: auto;
     display: inline-block;
     position: relative;
+}
+
+.access-div
+{
+    height: auto;
 }
 
 #logo-div
@@ -110,13 +123,20 @@ body
     display: inline-block;
     text-decoration: none;
     height: var(--nav-size);
+    color: var(--txtcolor);
+}
+
+.access-link
+{
+    height:auto;
+    
 }
 
 .navbar-linktext
 {
     display: inline-block;
     text-transform: uppercase;
-    color: var(--txtcolor);
+    
     font-weight: bold;
     letter-spacing: 0.3ch;
     transform-origin: 0 10px;
@@ -124,12 +144,15 @@ body
     font-size: 1.6rem;
 }
 
+
 .alert-div
 {
     position: absolute;
-    width: 35%;
-    right: 30%;
-    z-index: 997;
+    bottom: 5%;
+    width: 36%;
+    left: 50%;
+    margin-left: -18%;
+    z-index: 1;
 }
 
 .alert
@@ -237,7 +260,7 @@ body
 {
     display: flex;
     justify-content: center;
-    padding-top: 15px;
+    padding-top: 50px;
 }
 .content-section
 {
