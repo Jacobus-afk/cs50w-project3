@@ -46,7 +46,7 @@
                 </div>
 
             </li>
-            <li class="navbar-item">
+            <!-- <li class="navbar-item">
                 <div class="navbar-div">
                     <a href="{% url 'menu-checkout' %}" class="navbar-link">
                         <span class="navbar-linktext">
@@ -55,7 +55,7 @@
                     </a>
                 </div>
 
-            </li>
+            </li> -->
 
             <li class="navbar-item navbar-access" >
                 {% if user.is_authenticated %}
@@ -68,7 +68,10 @@
                 </div>
                 <div class="navbar-div access-div">
                         <span class="access-text">
-                            &nbsp;
+                            <a href="{% url 'menu-checkout' %}" class="navbar-link access-link" id="shopping-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                            
                         </span>
                 </div>
                 {% else %}
@@ -104,5 +107,9 @@
 
 
 </body>
-
+    <script>
+        let csrftoken = '{{ csrf_token }}';
+    </script>
+    <script src="{% static 'menu/menu.js' %}"></script>
+    <script src="https://kit.fontawesome.com/ac4cfb10ae.js" crossorigin="anonymous"></script>
 </html>
