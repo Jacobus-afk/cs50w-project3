@@ -8,6 +8,7 @@
     --subnav-size: 2.5rem;
     --default-margin: 10px;
 }
+
 *
 {
     box-sizing: border-box;
@@ -144,7 +145,6 @@ body
     font-size: 1.6rem;
 }
 
-
 .alert-div
 {
     position: absolute;
@@ -233,11 +233,8 @@ body
 
 .topping-popup .topping-choices
 {
-    /*background-color: #555;*/
-    /*border-radius: 5px;*/
     padding: 5px;
-    /*position: absolute;*/
-    /*z-index: 1;*/
+    padding-right: 20px;
     white-space: nowrap;
 }
 

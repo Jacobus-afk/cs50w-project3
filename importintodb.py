@@ -79,16 +79,16 @@ def populate_prices():
                     order_id=title_id, selection_count=sel_cnt
                 ):
                     if row["Large"]:
-                        Price.objects.filter(option=o, size="LG").update(
+                        Price.objects.filter(option=o, size="Large").update(
                             price=float(row["Large"])
                         )
                     if row["Small"]:
-                        Price.objects.filter(option=o, size="SM").update(
+                        Price.objects.filter(option=o, size="Small").update(
                             price=float(row["Small"])
                         )
-                    if row["Normal"]:
-                        Price.objects.filter(option=o, size="NM").update(
-                            price=float(row["Normal"])
+                    if row["Standard"]:
+                        Price.objects.filter(option=o, size="Standard").update(
+                            price=float(row["Standard"])
                         )
 
 

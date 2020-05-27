@@ -60,20 +60,20 @@
             <li class="navbar-item navbar-access" >
                 {% if user.is_authenticated %}
                 <div class="navbar-div access-div">
+                    <span class="access-text">
+                        <a href="{% url 'menu-checkout' %}" class="navbar-link access-link" id="shopping-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                    </span>
+                </div>
+                <div class="navbar-div access-div">
                     <a href="{% url 'logout' %}" class="navbar-link access-link">
                         <span class="access-text">
                             Log out
                         </span>
                     </a>
                 </div>
-                <div class="navbar-div access-div">
-                        <span class="access-text">
-                            <a href="{% url 'menu-checkout' %}" class="navbar-link access-link" id="shopping-cart">
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            
-                        </span>
-                </div>
+
                 {% else %}
                 <div class="navbar-div access-div">
                     <a href="{% url 'login' %}" class="navbar-link access-link">
@@ -105,11 +105,11 @@
         {% block content %}{% endblock %}
     </main>
 
-
-</body>
     <script>
         let csrftoken = '{{ csrf_token }}';
     </script>
     <script src="{% static 'menu/menu.js' %}"></script>
     <script src="https://kit.fontawesome.com/ac4cfb10ae.js" crossorigin="anonymous"></script>
+</body>
+
 </html>

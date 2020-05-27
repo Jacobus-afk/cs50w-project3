@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let prev_product_span = null;
     for (i = 0; i < anchors.length; i++) {
         anchors[i].addEventListener('click', (event) => {
-            while(menu_items.firstChild) {
+            while (menu_items.firstChild) {
                 menu_items.removeChild(menu_items.lastChild);
             }
-            const product_span = document.getElementById(event.currentTarget.name+"-span");
+            const product_span = document.getElementById(event.currentTarget.name + "-span");
             prev_product_span = update_active_class(prev_product_span, product_span);
             build_menu(event.currentTarget.name);
         });
@@ -49,11 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function place_order(size, price_id) {
+    function place_order(size, price_id, toppings = []) {
         console.log("placed order: " + size + ", price_id: " + price_id);
+        console.log("with toppings: ", toppings);
     }
 
-    async function build_prices(order_id, sel_cnt) {
+    async function build_prices(order_id, sel_cnt, toppings = []) {
         const helper = await import("./templates.js");
         let prev_price = null;
         price_div = document.createElement("div");
@@ -73,10 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const price = _price.price;
                 const id = _price.id;
 
-                const label = helper.create_label(size, size + ": " + price);
+                const label = helper.create_label(size, size + ": $" + price);
                 label.onclick = () => {
                     prev_price = update_active_class(prev_price, label);
-                    place_order(size, id);
+                    place_order(size, id, toppings);
                 }
                 helper.appendicitis(price_div, label);
             })
@@ -95,11 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const data = await ajax_req({ "order_id": order_id }, "/ajax/topping");
             //console.log(data);
-            //const toppings = 
+
             return data.toppings;
-            // return helper.create_topping_choices(toppings);
         }
-        catch(err) {
+        catch (err) {
             console.log("List Toppings Error: ", err);
         }
     }
@@ -113,7 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let available_toppings = [];
         let used_toppings = [];
         topping_list.map(entity => {
-            available_toppings.push(entity.topping);
+            const obj = {
+                topping: entity.topping,
+                id: entity.id
+            }
+            available_toppings.push(obj);
         })
         // console.log("available toppings: ", available_toppings);
 
@@ -130,17 +134,13 @@ document.addEventListener("DOMContentLoaded", () => {
             add_label.onclick = async () => {
                 try {
                     const topping_choice = await helper.create_topping_choices(available_toppings);
-                    // console.log("Topping chosen: " + available_toppings.indexOf(topping_choice));
-                    available_toppings.splice(available_toppings.indexOf(topping_choice),1);
+                    available_toppings.splice(available_toppings.indexOf(topping_choice), 1);
                     used_toppings.push(topping_choice);
-                    console.log("used_toppings: ", used_toppings);
-                    // console.log("available toppings: ", available_toppings);
                 }
-                catch(err) {
-                    // console.log("add topping error: ", err);
+                catch (err) {
                     return;
                 }
-                
+
                 topping_cnt++;
                 if (topping_cnt < topping_lim) {
                     rem_label.style.visibility = "visible";
@@ -151,12 +151,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     add_label.style.visibility = "hidden";
                 }
                 clear_menu(topping_add_div);
-                build_prices(order_id, topping_cnt);
-                //list_toppings(order_id);
+                build_prices(order_id, topping_cnt, used_toppings);
                 cnt_label.innerHTML = topping_cnt;
             }
 
-            rem_label.onclick = () => {
+            rem_label.onclick = async () => {
+                try {
+                    const topping_choice = await helper.create_topping_choices(used_toppings);
+                    used_toppings.splice(used_toppings.indexOf(topping_choice), 1);
+                    available_toppings.push(topping_choice);
+                }
+                catch (err) {
+                    return;
+                }
+
                 topping_cnt--;
                 if (topping_cnt > 0) {
                     add_label.style.visibility = "visible";
@@ -189,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return !(option.option_name.includes("Topping"));
             });
 
-            if ((typeof base_options === "undefined")||(base_options.length === 0)) {
+            if ((typeof base_options === "undefined") || (base_options.length === 0)) {
                 return;
             }
 
@@ -233,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_orders(orders) {
-        
+
         const helper = await import("./templates.js");
         order_div = document.createElement("div");
         order_div.className = "order-div";
@@ -260,17 +268,16 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         try {
-            while(menu_items.lastChild.id !== older_brother.id) {
+            while (menu_items.lastChild.id !== older_brother.id) {
                 menu_items.removeChild(menu_items.lastChild);
             }
         }
-        catch(err) {
+        catch (err) {
             console.log("clear_menu error: " + err);
         }
     }
 
     async function build_menu(product) {
-        // console.log(product)
         try {
             const data = await ajax_req({ "product": product }, "/ajax/order");
             build_orders(data.orders);

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, Option, Price, Order, Topping#, ToppingKeeper
+from .models import Product, Option, Price, Order, Topping
 
 class ToppingInline(admin.StackedInline):
     model = Topping.products.through
@@ -17,4 +17,3 @@ admin.site.register(Order)
 admin.site.register(Option)
 admin.site.register(Price)
 admin.site.register(Topping, ToppingAdmin)
-#admin.site.register(ToppingKeeper)

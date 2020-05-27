@@ -54,8 +54,3 @@ def post_topping(request):
         topping_list = list(toppings.values())
         return JsonResponse({"toppings": topping_list}, status=200)
     return JsonResponse({"error": ""}, status=400)
-    #     toppings = ToppingKeeper.objects.filter(product__product=o.product.product)
-    #     topping_list = list(toppings.values_list('topping__topping', flat=True))
-    #     # test = ToppingKeeper(limit_choices_to={'product__product': 'Pizza'})
-    #     return JsonResponse({"toppings": topping_list}, status=200)
-    # return JsonResponse({"error": ""}, status=400)

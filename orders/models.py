@@ -17,13 +17,6 @@ class Topping(models.Model):
         return f"{self.topping}"
 
 
-# class ToppingKeeper(models.Model):
-#     topping = models.ForeignKey(Topping, on_delete=models.CASCADE)
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return f"{self.product} allows {self.topping} as topping"
-
-
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     title = models.CharField(max_length=32)
@@ -48,13 +41,13 @@ class Option(models.Model):
 
 
 class Price(models.Model):
-    SMALL = "SM"
-    LARGE = "LG"
-    NORMAL = "NM"
-    SIZE_CHOICES = [(SMALL, "Small"), (LARGE, "Large"), (NORMAL, "Normal")]
+    SMALL = "Small"
+    LARGE = "Large"
+    NORMAL = "Standard"
+    SIZE_CHOICES = [(SMALL, "Small"), (LARGE, "Large"), (NORMAL, "Standard")]
     option = models.ForeignKey(Option, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=5, decimal_places=2, default=999.99)
-    size = models.CharField(max_length=2, choices=SIZE_CHOICES, default=NORMAL)
+    size = models.CharField(max_length=16, choices=SIZE_CHOICES, default=NORMAL)
 
     def __str__(self):
         return f"{self.option} {self.size} : ${self.price}"

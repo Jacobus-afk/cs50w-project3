@@ -14,7 +14,7 @@ def create_options(sender, instance, created, **kwargs):
 def create_prices(sender, instance, created, **kwargs):
     if created:
         if instance.order.size_choice:
-            Price.objects.get_or_create(option=instance, size="LG")
-            Price.objects.get_or_create(option=instance, size="SM")
+            Price.objects.get_or_create(option=instance, size="Large")
+            Price.objects.get_or_create(option=instance, size="Small")
         else:
             Price.objects.get_or_create(option=instance)

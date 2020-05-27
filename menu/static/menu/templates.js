@@ -29,12 +29,11 @@ export function create_topping_choices(toppings) {
     }
 
     return new Promise((resolve, reject) => {
-        // toppings.forEach(item => {
             
         toppings.map(item => {
             // console.log(item);
             const brk = document.createElement("BR");
-            const name = item; // object.topping;
+            const name = item.topping;
             const anchor = document.createElement("a");
             anchor.href = "#";
             anchor.id = name;
@@ -45,7 +44,7 @@ export function create_topping_choices(toppings) {
 
             anchor.onclick = () => {
                 close_popup();
-                resolve(anchor.id);
+                resolve(item);
             }
         });
         popup_close.onclick = () => {
@@ -53,8 +52,6 @@ export function create_topping_choices(toppings) {
             reject("Clicked close");
         };
         fullscreen_container.onclick = () => {
-        // window.onclick = () => {
-            // console.log();
             close_popup();
             reject("Clicked outside popup");
         };
