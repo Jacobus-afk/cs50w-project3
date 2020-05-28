@@ -46,22 +46,12 @@
                 </div>
 
             </li>
-            <!-- <li class="navbar-item">
-                <div class="navbar-div">
-                    <a href="{% url 'menu-checkout' %}" class="navbar-link">
-                        <span class="navbar-linktext">
-                            Checkout
-                        </span>
-                    </a>
-                </div>
-
-            </li> -->
 
             <li class="navbar-item navbar-access" >
                 {% if user.is_authenticated %}
                 <div class="navbar-div access-div">
                     <span class="access-text">
-                        <a href="{% url 'menu-checkout' %}" class="navbar-link access-link" id="shopping-cart">
+                        <a href="{% url 'menu-cart' %}" class="navbar-link access-link" id="shopping-cart">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
                     </span>

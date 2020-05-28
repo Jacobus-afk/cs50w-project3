@@ -17,8 +17,8 @@ def menu(request):
     return render(request, "menu/menu.html", {"products": list(products)})
 
 @login_required
-def checkout(request):
-    return render(request, "menu/checkout.html")
+def cart(request):
+    return render(request, "menu/cart.html")
 
 # https://www.pluralsight.com/guides/work-with-ajax-django
 def post_order(request):
@@ -53,4 +53,18 @@ def post_topping(request):
         toppings = Topping.objects.filter(products=o.product)
         topping_list = list(toppings.values())
         return JsonResponse({"toppings": topping_list}, status=200)
+    return JsonResponse({"error": ""}, status=400)
+
+def add_to_cart(request):
+    if request.is_ajax and request.method == "POST":
+        size = request.POST["size"]
+        toppings = request.POST["toppings"]
+        order = {
+            "size": size,
+            "toppings": toppings
+            }
+        order_list = request.session.get("order", [])
+        order_list.append(order)
+        request.session["order"] = order_list
+        return JsonResponse({"success": order_list}, status=200)
     return JsonResponse({"error": ""}, status=400)

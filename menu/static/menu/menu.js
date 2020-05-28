@@ -49,9 +49,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function place_order(size, price_id, toppings = []) {
-        console.log("placed order: " + size + ", price_id: " + price_id);
+    async function place_order(size, toppings = []) {
+        console.log("placed order: " , size);
         console.log("with toppings: ", toppings);
+        const req = {
+            "size": JSON.stringify(size),
+            "toppings": JSON.stringify(toppings)
+        }
+        try{
+            const data = await ajax_req(req, "/ajax/addtocart");
+            console.log(data);
+        }
+        catch(err) {
+            console.log("Place order error:" + err);
+        }
     }
 
     async function build_prices(order_id, sel_cnt, toppings = []) {
@@ -77,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const label = helper.create_label(size, size + ": $" + price);
                 label.onclick = () => {
                     prev_price = update_active_class(prev_price, label);
-                    place_order(size, id, toppings);
+                    place_order({size: size, price_id: id}, toppings);
                 }
                 helper.appendicitis(price_div, label);
             })
@@ -115,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         topping_list.map(entity => {
             const obj = {
                 topping: entity.topping,
-                id: entity.id
+                topping_id: entity.id
             }
             available_toppings.push(obj);
         })

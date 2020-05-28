@@ -4,10 +4,11 @@ from . import views
 
 urlpatterns = [
     path("", views.home, name="menu-home"),
+    path("ajax/addtocart", views.add_to_cart, name="menu-addtocart"),
     path("ajax/order", views.post_order, name="menu-post-order"),
     path("ajax/option", views.post_option, name="menu-post-option"),
     path("ajax/price", views.post_price, name="menu-post-option"),
     path("ajax/topping", views.post_topping, name="menu-post-topping"),
     path("menu/", views.menu, name="menu-menu"),
-    path("checkout", views.checkout, name="menu-checkout")
+    path("cart", views.cart, name="menu-cart")
 ]

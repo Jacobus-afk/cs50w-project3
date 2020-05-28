@@ -43,6 +43,7 @@ body
     background-color: #239346;
     width: var(--body-padding);
     height: 100%;
+    border-radius: 5px;
 }
 
 #overlay-split2
@@ -57,6 +58,7 @@ body
     background-color: #be0027;
     width: var(--body-padding);
     height: 100%;
+    border-radius: 5px;
 }
 
 .navbar
