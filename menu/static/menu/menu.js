@@ -59,6 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
         try{
             const data = await ajax_req(req, "/ajax/addtocart");
             console.log(data);
+            if ("success" in data) {
+                const cart_count = document.getElementById("cart-cnt");
+                cart_count.innerHTML = Number(cart_count.innerHTML) + 1;
+            }
+
         }
         catch(err) {
             console.log("Place order error:" + err);

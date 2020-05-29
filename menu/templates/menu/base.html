@@ -48,14 +48,21 @@
             </li>
 
             <li class="navbar-item navbar-access" >
-                {% if user.is_authenticated %}
                 <div class="navbar-div access-div">
                     <span class="access-text">
                         <a href="{% url 'menu-cart' %}" class="navbar-link access-link" id="shopping-cart">
+                            
+                            <span id="cart-cnt">
+                                {% if request.session.order|length > 0 %}
+                                    {{ request.session.order|length }}
+                                {% endif %}
+                            </span>
                             <i class="fas fa-shopping-cart"></i>
                         </a>
                     </span>
                 </div>
+                {% if user.is_authenticated %}
+
                 <div class="navbar-div access-div">
                     <a href="{% url 'logout' %}" class="navbar-link access-link">
                         <span class="access-text">

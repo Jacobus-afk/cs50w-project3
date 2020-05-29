@@ -9,8 +9,10 @@ from orders.models import Option, Order, Price, Product, Topping#, ToppingKeeper
 
 
 def home(request):
-    messages.success(request, f"Welcome home")
-    return render(request, "menu/home.html")
+    
+    order_list = request.session.get("order", [])
+    messages.success(request, f"{order_list}")
+    return render(request, "menu/home.html", {"cart": order_list})
 
 def menu(request):
     products = Product.objects.values_list("product", flat=True)
