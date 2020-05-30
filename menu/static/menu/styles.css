@@ -135,6 +135,11 @@ body
     
 }
 
+#cart-cnt
+{
+    color: #be0027;
+}
+
 .navbar-linktext
 {
     display: inline-block;

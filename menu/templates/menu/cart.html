@@ -1,6 +1,18 @@
 {% extends "menu/base.html" %}
 {% block title %} - Cart{% endblock %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
+        {% for uid, order in orders.items %}
+        <div id="{{ uid }}">
+            <span>{{ order.product }}</span>
+            <span>{{ order.order }}</span>
+            {% for topping in order.toppings %}
+                <span>{{topping}}</span>
+            {% endfor %}
+            <span>{{ order.price }}</span>
 
+        </div>
+
+        {% endfor %}
+        <br>
+        <span>{{ tally }}</span>
 {% endblock content %}

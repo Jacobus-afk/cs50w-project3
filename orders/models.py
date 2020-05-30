@@ -50,4 +50,4 @@ class Price(models.Model):
     size = models.CharField(max_length=16, choices=SIZE_CHOICES, default=NORMAL)
 
     def __str__(self):
-        return f"{self.option} {self.size} : ${self.price}"
+        return f"{self.option.order} {self.size} : ${self.price}"
