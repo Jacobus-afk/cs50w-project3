@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const pos = document.getElementById(product).getClientRects()[0];
             const floating_menu = document.getElementById("floating-menu");
             floating_menu.style.left = pos.left+"px";
-            console.log(pos.left, pos.right);
+            // console.log(pos.left, pos.right);
         }
         catch (err) {
             console.log("Build Menu Error: " + err);

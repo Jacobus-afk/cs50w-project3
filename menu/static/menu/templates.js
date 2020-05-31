@@ -10,7 +10,11 @@ export function create_radio_input(name, value, id) {
 }
 
 export function create_topping_choices(toppings) {
+    const pos = document.getElementById("topping-add-div").getClientRects()[0];
     const popup = document.getElementById("topping-popup");
+    console.log(pos.left);
+    popup.style.left = pos.left+"px";
+    popup.style.top = pos.top+"px";
     const popup_choices = document.getElementById("topping-choices");
     const popup_close = document.getElementById("topping-close");
     const fullscreen_container = document.getElementById("fullscreen-container");

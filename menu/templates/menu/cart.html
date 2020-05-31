@@ -1,18 +1,60 @@
 {% extends "menu/base.html" %}
 {% block title %} - Cart{% endblock %}
 {% block content %}
-        {% for uid, order in orders.items %}
-        <div id="{{ uid }}">
-            <span>{{ order.product }}</span>
-            <span>{{ order.order }}</span>
-            {% for topping in order.toppings %}
-                <span>{{topping}}</span>
-            {% endfor %}
-            <span>{{ order.price }}</span>
+    <div class="cart-div">
+        <div class="cart-item">
+            <div class="cart-border">
+                <div class="cart-order"><h2>Cart</h2></div>
+            </div>
+        <!-- </div> -->
 
-        </div>
+        {% for uid, order in orders.items %}
+
+        <!-- <div class="cart-item" id="{{ uid }}"> -->
+            <div class="cart-border">
+                <div class="cart-order">
+                    <div class="cart-description">
+                        {{ order.product }}
+                    </div>
+                    <div class="cart-order-title">
+                        {{ order.order }}
+                    </div>
+
+                </div>
+                
+                <div class="cart-toppings">
+                    <div class="cart-description">
+                        {% if order.toppings %}Toppings{% endif %}
+                    </div>
+                    <div class="cart-toppings-title">
+                        {% for topping in order.toppings %}
+                            <div>{{topping}}</div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="cart-price">$ {{ order.price }}</div>
+                <div class="cart-remove" value="{{ uid }}">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+            </div>
+
+
+        <!-- </div> -->
 
         {% endfor %}
-        <br>
-        <span>{{ tally }}</span>
+        <!-- <div class="cart-item"> -->
+            <div class="cart-border cart-total">
+                <div class="cart-order"></div>
+                <div class="cart-toppings cart-description" style="align-items: flex-end;">
+                    Total
+                </div>
+                <div class="cart-price">$ {{ tally }}</div>
+                <div class="cart-remove"></div>
+            </div>
+        </div>
+
+    </div>
+
 {% endblock content %}
