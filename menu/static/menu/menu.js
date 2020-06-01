@@ -1,5 +1,6 @@
 // https://stackoverflow.com/questions/42733761/how-to-properly-append-django-csrf-token-to-form-in-inline-javascript
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const helper = await import("./helper.js");
     const anchors = document.anchors;
     const menu_items = document.getElementById("menu-items");
     let order_div = document.createElement("div");
@@ -24,44 +25,46 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function ajax_req(req, api_endpoint) {
-        return new Promise((res, rej) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", api_endpoint);
-            xhr.onload = () => {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    const data = JSON.parse(xhr.responseText);
-                    // console.log(data);
-                    res(data);
-                } else {
-                    rej({
-                        status: xhr.status,
-                        statusText: xhr.statusText
-                    });
-                }
-            }
-            const fdata = new FormData();
-            for (key in req) {
-                fdata.append(key, req[key]);
-            }
-            fdata.append('csrfmiddlewaretoken', csrftoken);
-            xhr.send(fdata);
-        });
-    }
+    // function ajax_req(req, api_endpoint) {
+    //     return new Promise((res, rej) => {
+    //         const xhr = new XMLHttpRequest();
+    //         xhr.open("POST", api_endpoint);
+    //         xhr.onload = () => {
+    //             if (xhr.status >= 200 && xhr.status < 300) {
+    //                 const data = JSON.parse(xhr.responseText);
+    //                 // console.log(data);
+    //                 res(data);
+    //             } else {
+    //                 rej({
+    //                     status: xhr.status,
+    //                     statusText: xhr.statusText
+    //                 });
+    //             }
+    //         }
+    //         const fdata = new FormData();
+    //         for (key in req) {
+    //             fdata.append(key, req[key]);
+    //         }
+    //         fdata.append('csrfmiddlewaretoken', csrftoken);
+    //         xhr.send(fdata);
+    //     });
+    // }
 
     async function place_order(size, toppings = []) {
-        console.log("placed order: " , size);
-        console.log("with toppings: ", toppings);
+        // const helper = await import("./helper.js");
+        // console.log("placed order: " , size);
+        // console.log("with toppings: ", toppings);
         const req = {
             "size": JSON.stringify(size),
             "toppings": JSON.stringify(toppings)
         }
         try{
-            const data = await ajax_req(req, "/ajax/addtocart");
-            console.log(data);
+            const data = await helper.ajax_req(req, "/ajax/addtocart");
+            // console.log(data);
             if ("success" in data) {
-                const cart_count = document.getElementById("cart-cnt");
-                cart_count.innerHTML = Number(cart_count.innerHTML) + 1;
+                await helper.incr_cart_cnt();
+                // const cart_count = document.getElementById("cart-cnt");
+                // cart_count.innerHTML = Number(cart_count.innerHTML) + 1;
             }
 
         }
@@ -71,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_prices(order_id, sel_cnt, toppings = []) {
-        const helper = await import("./templates.js");
+        // const helper = await import("./helper.js");
         let prev_price = null;
         price_div = document.createElement("div");
         price_div.className = "price-div";
@@ -81,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "order_id": order_id,
                 "sel_cnt": sel_cnt
             }
-            const data = await ajax_req(req, "/ajax/price");
+            const data = await helper.ajax_req(req, "/ajax/price");
             // console.log(data);
             const prices = data.prices;
 
@@ -105,12 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function list_toppings(order_id) {
-        const helper = await import("./templates.js");
+        // const helper = await import("./helper.js");
         topping_div = document.createElement("div");
         topping_div.className = "topping-div";
         topping_div.id = "topping-div";
         try {
-            const data = await ajax_req({ "order_id": order_id }, "/ajax/topping");
+            const data = await helper.ajax_req({ "order_id": order_id }, "/ajax/topping");
             //console.log(data);
 
             return data.toppings;
@@ -121,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_add_toppings(topping_lim, order_id) {
-        const helper = await import("./templates.js");
+        // const helper = await import("./helper.js");
         topping_add_div = document.createElement("div");
         topping_add_div.className = "topping-add-div";
         topping_add_div.id = "topping-add-div";
@@ -200,13 +203,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function build_options(order_id, sel_lim, ) {
-        const helper = await import("./templates.js");
+        // const helper = await import("./helper.js");
         let prev_option = null;
         option_div = document.createElement("div");
         option_div.className = "option-div";
         option_div.id = "option-div";
         try {
-            const data = await ajax_req({ "order_id": order_id }, "/ajax/option");
+            const data = await helper.ajax_req({ "order_id": order_id }, "/ajax/option");
             const options = data.options;
 
             const base_options = options.filter((option) => {
@@ -258,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function build_orders(orders) {
 
-        const helper = await import("./templates.js");
+        // const helper = await import("./helper.js");
         order_div = document.createElement("div");
         order_div.className = "order-div";
         order_div.id = "order-div";
@@ -295,7 +298,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function build_menu(product) {
         try {
-            const data = await ajax_req({ "product": product }, "/ajax/order");
+            // const helper = await import("./helper.js");
+            const data = await helper.ajax_req({ "product": product }, "/ajax/order");
+            // console.log(data);
             build_orders(data.orders);
             const pos = document.getElementById(product).getClientRects()[0];
             const floating_menu = document.getElementById("floating-menu");

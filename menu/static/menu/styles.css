@@ -332,7 +332,7 @@ body
 
 .cart-div
 {
-    
+    font-size: 0.8rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -341,7 +341,7 @@ body
 
 }
 
-.cart-item
+.cart-items
 {
     border: 1px solid #dddddd;
     border-radius: 5px;
@@ -360,7 +360,7 @@ body
 
 .cart-total
 {
-    padding-top: 20px;
+    padding-top: 10px;
     border-bottom: none;
 }
 
@@ -369,7 +369,7 @@ body
     width: 200px;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: column;
 }
 
@@ -383,7 +383,7 @@ body
 .cart-description
 {
     color: grey;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
 }
 
 .cart-toppings
@@ -395,17 +395,24 @@ body
     flex-direction: column;
 }
 
+.cart-toppings-title
+{
+    font-size: 0.8rem;
+}
+
 .cart-price
 {
     width: 80px;
     display: flex;
     justify-content: flex-end;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-end;
 }
 
 .cart-remove
 {
+    text-decoration: none;
+    color: var(--txtcolor);
     width: 18px;
     display: flex;
     justify-content: flex-end;

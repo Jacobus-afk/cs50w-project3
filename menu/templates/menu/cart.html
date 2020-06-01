@@ -1,8 +1,9 @@
 {% extends "menu/base.html" %}
+{% load static %}
 {% block title %} - Cart{% endblock %}
 {% block content %}
     <div class="cart-div">
-        <div class="cart-item">
+        <div class="cart-items">
             <div class="cart-border">
                 <div class="cart-order"><h2>Cart</h2></div>
             </div>
@@ -11,7 +12,7 @@
         {% for uid, order in orders.items %}
 
         <!-- <div class="cart-item" id="{{ uid }}"> -->
-            <div class="cart-border">
+            <div class="cart-border" id="{{ uid }}">
                 <div class="cart-order">
                     <div class="cart-description">
                         {{ order.product }}
@@ -34,10 +35,15 @@
 
                 </div>
 
-                <div class="cart-price">$ {{ order.price }}</div>
-                <div class="cart-remove" value="{{ uid }}">
-                    <i class="fas fa-trash-alt"></i>
+                <div class="cart-price">
+                    $ &nbsp;
+                    <span id="{{uid}}-cart-price">
+                        {{ order.price }}
+                    </span>
                 </div>
+                <a href="#" class="cart-remove" name="{{ uid }}">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
             </div>
 
 
@@ -50,11 +56,17 @@
                 <div class="cart-toppings cart-description" style="align-items: flex-end;">
                     Total
                 </div>
-                <div class="cart-price">$ {{ tally }}</div>
+                <div class="cart-price">
+                    $ &nbsp;
+                    <span id="cart-tally">
+                        {{ tally }}
+                    </span>
+                </div>
                 <div class="cart-remove"></div>
             </div>
         </div>
 
     </div>
 
+    <script src="{% static 'menu/cart.js' %}"></script>
 {% endblock content %}

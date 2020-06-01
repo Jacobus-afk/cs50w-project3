@@ -12,7 +12,7 @@ export function create_radio_input(name, value, id) {
 export function create_topping_choices(toppings) {
     const pos = document.getElementById("topping-add-div").getClientRects()[0];
     const popup = document.getElementById("topping-popup");
-    console.log(pos.left);
+    // console.log(pos.left);
     popup.style.left = pos.left+"px";
     popup.style.top = pos.top+"px";
     const popup_choices = document.getElementById("topping-choices");
@@ -90,5 +90,41 @@ export function appendicitis(parent, ...children) {
     children.map((child) => {
         parent.append(child)
         parent.append(brk);
+    });
+}
+
+export function incr_cart_cnt() {
+    const cart_count = document.getElementById("cart-cnt");
+    cart_count.innerHTML = Number(cart_count.innerHTML) + 1;
+}
+
+export function decr_cart_cnt() {
+    const cart_count = document.getElementById("cart-cnt");
+    cart_count.innerHTML = Number(cart_count.innerHTML) - 1;
+}
+
+export function ajax_req(req, api_endpoint) {
+    return new Promise((res, rej) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", api_endpoint);
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const data = JSON.parse(xhr.responseText);
+                // console.log(data);
+                res(data);
+            } else {
+                rej({
+                    status: xhr.status,
+                    statusText: xhr.statusText
+                });
+            }
+        }
+        const fdata = new FormData();
+        for (const key in req) {
+            // console.log(key);
+            fdata.append(key, req[key]);
+        }
+        fdata.append('csrfmiddlewaretoken', csrftoken);
+        xhr.send(fdata);
     });
 }

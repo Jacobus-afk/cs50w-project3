@@ -95,5 +95,15 @@ def add_to_cart(request):
         order_dict[uid] = order
         #order_list.append(order)
         request.session["order"] = order_dict
-        return JsonResponse({"success": order_dict}, status=200)
+        return JsonResponse({"success": f"{order} added to order_dict"}, status=200)
+    return JsonResponse({"error": ""}, status=400)
+
+def take_from_cart(request):
+    if request.is_ajax and request.method == "POST":
+        dump_item = request.POST["dump_item"]
+        order_dict = request.session.get("order", {})
+        if dump_item in order_dict:
+            del order_dict[dump_item]
+            request.session["order"] = order_dict
+            return JsonResponse({"success": f"{dump_item} removed from order_dict"}, status=200)
     return JsonResponse({"error": ""}, status=400)
