@@ -21,7 +21,7 @@ def menu(request):
 #@login_required
 def cart(request):
     order_dict = request.session.get("order", {})
-    tally = 0.0
+    tally = 0.00
     pretty_orderdict = {}
     for uid, order in order_dict.items():
         try:
@@ -41,7 +41,7 @@ def cart(request):
                 }
         except:
             return render(request, "menu/error.html")
-    return render(request, "menu/cart.html", {"orders": pretty_orderdict, "tally": str(round(tally, 2))})
+    return render(request, "menu/cart.html", {"orders": pretty_orderdict, "tally": f"{tally:.2f}"})
 
 # https://www.pluralsight.com/guides/work-with-ajax-django
 def post_order(request):
@@ -107,3 +107,7 @@ def take_from_cart(request):
             request.session["order"] = order_dict
             return JsonResponse({"success": f"{dump_item} removed from order_dict"}, status=200)
     return JsonResponse({"error": ""}, status=400)
+
+def place_order(request):
+    if request.is_ajax and request.method == "POST":
+        

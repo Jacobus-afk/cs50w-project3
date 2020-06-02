@@ -3,7 +3,7 @@
 {% block title %} - Cart{% endblock %}
 {% block content %}
     <div class="cart-div">
-        <div class="cart-items">
+        <div id="cart-items">
             <div class="cart-border">
                 <div class="cart-order"><h2>Cart</h2></div>
             </div>
@@ -52,7 +52,16 @@
         {% endfor %}
         <!-- <div class="cart-item"> -->
             <div class="cart-border cart-total">
-                <div class="cart-order"></div>
+                <div class="cart-order">
+                    <div class="bootstrapiso">
+                        <button class="btn btn-outline-info" id="order-button"
+                        {% if not orders%}
+                            disabled
+                        {% endif %}>
+                            Order
+                        </button>
+                    </div>
+                </div>
                 <div class="cart-toppings cart-description" style="align-items: flex-end;">
                     Total
                 </div>
