@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.contrib.auth.models import User
 
 class Product(models.Model):
     product = models.CharField(max_length=32, unique=True)
@@ -51,3 +51,12 @@ class Price(models.Model):
 
     def __str__(self):
         return f"{self.option.order} {self.size} : ${self.price}"
+
+class Cart_Item(models.Model):
+    product = models.ForeignKey(Price, on_delete=models.CASCADE)
+    toppings = models.ManyToManyField(Topping, blank=True, related_name="cart_items")
+    
+
+class Cart(models.Model):
+    cart_items = models.ManyToManyField(Cart_Item, blank=True, related_name="carts")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)

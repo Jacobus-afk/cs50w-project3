@@ -54,12 +54,12 @@
             <div class="cart-border cart-total">
                 <div class="cart-order">
                     <div class="bootstrapiso">
-                        <button class="btn btn-outline-info" id="order-button"
-                        {% if not orders%}
-                            disabled
-                        {% endif %}>
+                        <a href="{% url 'menu-order' %}"
+                        role="button"
+                        class="btn btn-outline-info {% if not orders%}disabled{% endif %}"
+                        id="order-button">
                             Order
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <div class="cart-toppings cart-description" style="align-items: flex-end;">

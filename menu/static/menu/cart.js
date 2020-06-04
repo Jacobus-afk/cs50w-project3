@@ -19,27 +19,29 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return child.id != "";
             });
             if (children_with_id.length === 0) {
-                order_button.disabled = true;
+                // order_button.disabled = true;
+                order_button.classList.add("disabled");
+                // console.log(order_button);
             }
             // console.log(children_with_id);
         })
     }
 
-    order_button.onclick = async () => {
+    // order_button.onclick = async () => {
 
-        // console.log("order button clicked");
-        try {
-            const data = await helper.ajax_req({"place_order": "place_order"}, "/ajax/placeorder");
-        }
-        catch(err) {
-            console.log("Place order Error: " + err);
-        }
-    }
+    //     // console.log("order button clicked");
+    //     try {
+    //         const data = await helper.ajax_req({"place_order": "place_order"}, "/ajax/placeorder");
+    //     }
+    //     catch(err) {
+    //         console.log("Place order Error: " + err);
+    //     }
+    // }
 
     async function dump_cart_item_backend(id) {
         try{
             const data = await helper.ajax_req({"dump_item": id}, "/ajax/takefromcart");
-            console.log(data);
+            // console.log(data);
         }
         catch(err) {
             console.log("Backend dump cart item Error: " + err);

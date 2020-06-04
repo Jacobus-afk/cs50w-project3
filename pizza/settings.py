@@ -127,3 +127,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGIN_REDIRECT_URL = "menu-home"
 LOGIN_URL = "login"
+
+# AUTH_USER_MODEL = "users.CustomUser"

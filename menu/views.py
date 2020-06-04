@@ -18,6 +18,10 @@ def menu(request):
     products = Product.objects.values_list("product", flat=True)
     return render(request, "menu/menu.html", {"products": list(products)})
 
+@login_required
+def order(request):
+    return render(request, "menu/order.html")
+
 #@login_required
 def cart(request):
     order_dict = request.session.get("order", {})
@@ -108,6 +112,6 @@ def take_from_cart(request):
             return JsonResponse({"success": f"{dump_item} removed from order_dict"}, status=200)
     return JsonResponse({"error": ""}, status=400)
 
-def place_order(request):
-    if request.is_ajax and request.method == "POST":
-        
+# def place_order(request):
+#     if request.is_ajax and request.method == "POST":
+#         pass
