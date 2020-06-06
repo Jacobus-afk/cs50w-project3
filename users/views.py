@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm
-
+from django.contrib.auth import authenticate, login
 
 def register(request):
     if request.method == "POST":
@@ -9,8 +9,12 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password1")
             messages.success(request, f"Created account for {username}")
-            return redirect("login")
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('menu-order')
+            #return redirect("login")
     else:
         form = UserRegisterForm()
     return render(request, "users/register.html", {"form": form})

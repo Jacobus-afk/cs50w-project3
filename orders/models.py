@@ -50,13 +50,18 @@ class Price(models.Model):
     size = models.CharField(max_length=16, choices=SIZE_CHOICES, default=NORMAL)
 
     def __str__(self):
-        return f"{self.option.order} {self.size} : ${self.price}"
+        return f"{self.option.order} {self.size} ({self.option.option_name}): ${self.price}"
 
 class Cart_Item(models.Model):
     product = models.ForeignKey(Price, on_delete=models.CASCADE)
     toppings = models.ManyToManyField(Topping, blank=True, related_name="cart_items")
-    
+
+    def __str__(self):
+        return f"cart item: {self.id}"    
 
 class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     cart_items = models.ManyToManyField(Cart_Item, blank=True, related_name="carts")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    
+    def __str__(self):
+        return f"Cart of {self.user}"

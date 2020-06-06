@@ -13,37 +13,43 @@
 
         <!-- <div class="cart-item" id="{{ uid }}"> -->
             <div class="cart-border" id="{{ uid }}">
-                <div class="cart-order">
-                    <div class="cart-description">
-                        {{ order.product }}
+                <div class="cart-order-details">
+                    <div class="cart-order">
+                        <div class="cart-description">
+                            {{ order.product }}
+                        </div>
+                        <div class="cart-order-title">
+                            {{ order.order }}
+                        </div>
+    
                     </div>
-                    <div class="cart-order-title">
-                        {{ order.order }}
-                    </div>
-
+                    {% if order.toppings %}
+                        <div class="cart-toppings">
+                            <div class="cart-description">
+                                <!-- {% if order.toppings %}Toppings{% endif %} -->
+                                Toppings
+                            </div>
+                            <div class="cart-toppings-title">
+                                {% for topping in order.toppings %}
+                                    <div>{{topping}}</div>
+                                {% endfor %}
+                            </div>
+        
+                        </div>
+                    {% endif %}
                 </div>
-                
-                <div class="cart-toppings">
-                    <div class="cart-description">
-                        {% if order.toppings %}Toppings{% endif %}
-                    </div>
-                    <div class="cart-toppings-title">
-                        {% for topping in order.toppings %}
-                            <div>{{topping}}</div>
-                        {% endfor %}
-                    </div>
 
-                </div>
 
                 <div class="cart-price">
                     $ &nbsp;
-                    <span id="{{uid}}-cart-price">
+                    <span class="cart-price-val" id="{{uid}}-cart-price">
                         {{ order.price }}
                     </span>
+                    <a href="#" class="cart-remove" name="{{ uid }}">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
                 </div>
-                <a href="#" class="cart-remove" name="{{ uid }}">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
+
             </div>
 
 
@@ -61,17 +67,24 @@
                             Order
                         </a>
                     </div>
+
                 </div>
-                <div class="cart-toppings cart-description" style="align-items: flex-end;">
+                <!-- <div class="cart-toppings cart-description" style="align-items: flex-end;">
                     Total
-                </div>
+                </div> -->
                 <div class="cart-price">
-                    $ &nbsp;
-                    <span id="cart-tally">
-                        {{ tally }}
-                    </span>
+                    <div class="cart-description">
+                        Total
+                    </div>
+                    <!-- <div class="cart-price"> -->
+                        $ &nbsp;
+                        <span class="cart-price-val" id="cart-tally">
+                            {{ tally }}
+                        </span>
+                        <div class="cart-remove"></div>
+                    <!-- </div> -->
                 </div>
-                <div class="cart-remove"></div>
+                
             </div>
         </div>
 

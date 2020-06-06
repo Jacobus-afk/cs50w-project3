@@ -5,12 +5,13 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from orders.models import Option, Order, Price, Product, Topping#, ToppingKeeper
-import decimal
+from orders.models import Option, Order, Price, Product, Topping, Cart_Item, Cart
+from django.contrib.auth.models import User
+# import decimal
 
 def home(request):
     
-    order_dict = request.session.get("order", [])
+    order_dict = request.session.get("order", {})
     # messages.success(request, f"{order_list}")
     return render(request, "menu/home.html")
 
@@ -20,6 +21,25 @@ def menu(request):
 
 @login_required
 def order(request):
+    order_dict = request.session.get("order", {})
+    try:
+        # current_user = request.user
+        user_model = User.objects.get(id=request.user.id)
+        cart_model, _ = Cart.objects.get_or_create(user=user_model)
+        for uid, order in list(order_dict.items()):
+            price_model = Price.objects.get(id=order["size"]["price_id"])
+            cart_item_model = Cart_Item.objects.create(product=price_model)
+            for topping in order["toppings"]:
+                topping_model = Topping.objects.get(id=topping["topping_id"])
+                cart_item_model.toppings.add(topping_model)
+            cart_item_model.save()
+
+            cart_model.cart_items.add(cart_item_model)
+
+            del request.session["order"][uid]
+        cart_model.save()
+    except Exception as e:
+        return render(request, "menu/error.html")
     return render(request, "menu/order.html")
 
 #@login_required
@@ -37,6 +57,13 @@ def cart(request):
             tally += float(price)
             order = price_model.option.order.title
             product = price_model.option.order.product.product
+            option = price_model.option.option_name
+            if "Topping" in option or "Selection" in option:
+                option = ""
+            else:
+                option += ", "
+            size = price_model.size
+            product += " (" + option + size + ")"
             pretty_orderdict[uid] = {
                 "product": product,
                 "order": order,
