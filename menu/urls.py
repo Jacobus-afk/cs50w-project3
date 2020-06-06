@@ -11,6 +11,7 @@ urlpatterns = [
     path("ajax/price", views.post_price, name="menu-post-option"),
     path("ajax/topping", views.post_topping, name="menu-post-topping"),
     path("menu/", views.menu, name="menu-menu"),
-    path("order/", views.order, name="menu-order"),
+    path("view_orders/", views.order, name="menu-order"),
+    path("place_order/", views.order_placed, name="menu-order-placed"),
     path("cart/", views.cart, name="menu-cart")
 ]

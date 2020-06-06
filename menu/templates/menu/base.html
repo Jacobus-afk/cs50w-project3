@@ -44,9 +44,18 @@
                         </span>
                     </a>
                 </div>
-
             </li>
-
+            {% if user.is_authenticated %}
+            <li class="navbar-item">
+                <div class="navbar-div">
+                    <a href="{% url 'menu-order' %}" class="navbar-link">
+                        <span class="navbar-linktext">
+                            Orders
+                        </span>
+                    </a>
+                </div>
+            </li>
+            {% endif %}
             <li class="navbar-item navbar-access" >
                 <div class="navbar-div access-div">
                     <span class="access-text">

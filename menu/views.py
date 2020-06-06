@@ -21,6 +21,10 @@ def menu(request):
 
 @login_required
 def order(request):
+    return render(request, "menu/order.html")
+
+@login_required
+def order_placed(request):
     order_dict = request.session.get("order", {})
     try:
         # current_user = request.user
