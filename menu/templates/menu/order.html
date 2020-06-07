@@ -1,5 +1,60 @@
 {% extends "menu/base.html" %}
 {% block title %} - Order{% endblock %}
 {% block content %}
-    <h2>Pending orders</h2>
+
+<div class="cart-div">
+    <div id="cart-items">
+        <div class="cart-border">
+            <div class="cart-order"><h2>Pending orders</h2></div>
+        </div>
+
+        {% for item in cart_items %}
+            <div class="cart-border">
+                <div class="cart-order-details">
+                    <div class="cart-order pending-order">
+                        <div class="cart-description">
+                            {{ item.product.option.order.product }} 
+                            ({{ item.product.size }}, {{ item.product.option.option_name }})
+                        </div>
+                        <div class="cart-order-title">
+                            {{ item.product.option.order.title }}
+                        </div>
+                
+                    </div>
+                    {% if item.toppings.all %}
+                        <div class="cart-toppings">
+                            <div class="cart-description">
+                                <!-- {% if order.toppings %}Toppings{% endif %} -->
+                                Toppings
+                            </div>
+                            <div class="cart-toppings-title">
+                                {% for topping in item.toppings.all %}
+                                    <div>{{ topping }}</div>
+                                {% endfor %}
+                            </div>
+                
+                        </div>
+                    {% endif %}
+                </div>
+                
+            <div class="cart-price">
+                
+                <span class="cart-price-val">
+                    Pending
+                </span>
+                
+            </div>
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </div>
+</div>
+
+
 {% endblock content %}
+
+

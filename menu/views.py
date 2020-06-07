@@ -23,11 +23,13 @@ def menu(request):
 def view_order(request):
     try:
         cart_model = Cart.objects.get(user__id=request.user.id)
-        messages.success(request, f"{list(cart_model.cart_items.values())}")
+        cart_items = cart_model.cart_items.all()
+        # for item in cart_model.cart_items.all():
+        #     messages.success(request, f"{item.product}, Toppings: {list(item.toppings.all())}")
     except Exception as e:
         messages.error(request, f"{e}")
         return render(request, "menu/error.html")
-    return render(request, "menu/order.html")
+    return render(request, "menu/order.html", {"cart_items": cart_items})
 
 @login_required
 def order_placed(request):

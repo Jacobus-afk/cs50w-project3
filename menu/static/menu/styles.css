@@ -401,6 +401,8 @@ body
     padding-bottom: 10px;
 }
 
+
+
 .cart-toppings
 {
     margin-top: 10px;
@@ -409,6 +411,11 @@ body
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
+}
+
+.pending-order
+{
+    width: auto;
 }
 
 .cart-toppings-title
@@ -457,3 +464,4 @@ body
     flex-direction: column;
     cursor: pointer; */
 }
+
