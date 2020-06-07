@@ -20,7 +20,13 @@ def menu(request):
     return render(request, "menu/menu.html", {"products": list(products)})
 
 @login_required
-def order(request):
+def view_order(request):
+    try:
+        cart_model = Cart.objects.get(user__id=request.user.id)
+        messages.success(request, f"{list(cart_model.cart_items.values())}")
+    except Exception as e:
+        messages.error(request, f"{e}")
+        return render(request, "menu/error.html")
     return render(request, "menu/order.html")
 
 @login_required
@@ -41,10 +47,11 @@ def order_placed(request):
             cart_model.cart_items.add(cart_item_model)
 
             del request.session["order"][uid]
+        request.session.modified = True
         cart_model.save()
     except Exception as e:
         return render(request, "menu/error.html")
-    return render(request, "menu/order.html")
+    return view_order(request)
 
 #@login_required
 def cart(request):

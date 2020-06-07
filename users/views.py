@@ -13,7 +13,7 @@ def register(request):
             messages.success(request, f"Created account for {username}")
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('menu-order')
+            return redirect('menu-order-placed')
             #return redirect("login")
     else:
         form = UserRegisterForm()
