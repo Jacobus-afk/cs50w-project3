@@ -6,7 +6,10 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from orders.models import Option, Order, Price, Product, Topping, Cart_Item, Cart
-from django.contrib.auth.models import User
+from users.decorators import employee_required
+
+# from django.contrib.auth.models import User
+from users.models import User
 # import decimal
 
 def home(request):
@@ -54,6 +57,10 @@ def order_placed(request):
     except Exception as e:
         return render(request, "menu/error.html")
     return view_order(request)
+
+@employee_required
+def handle_order(request):
+    return render(request, "menu/handle_order.html")
 
 #@login_required
 def cart(request):

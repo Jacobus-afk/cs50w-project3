@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import User
-
+# from django.contrib.auth.models import User
+from users.models import User
 class Product(models.Model):
     product = models.CharField(max_length=32, unique=True)
 

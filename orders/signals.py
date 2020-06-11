@@ -1,8 +1,8 @@
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from .models import Order, Option, Product, Price, Cart, Cart_Item
-from django.contrib.auth.models import User
-
+# from django.contrib.auth.models import User
+from users.models import User
 @receiver(post_save, sender=Order)
 def create_options(sender, instance, created, **kwargs):
     if created:
