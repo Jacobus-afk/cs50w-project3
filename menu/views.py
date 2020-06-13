@@ -60,7 +60,8 @@ def order_placed(request):
 
 @employee_required
 def handle_order(request):
-    return render(request, "menu/handle_order.html")
+    cart_models = Cart.objects.filter(user__is_customer=True).all()
+    return render(request, "menu/handle_order.html", {"carts": cart_models})
 
 #@login_required
 def cart(request):
