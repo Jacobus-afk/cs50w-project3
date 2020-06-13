@@ -160,6 +160,16 @@ def take_from_cart(request):
             return JsonResponse({"success": f"{dump_item} removed from order_dict"}, status=200)
     return JsonResponse({"error": ""}, status=400)
 
+def remove_cart_item_from_db(request):
+    if request.is_ajax and request.method == "POST":
+        dump_item = request.POST["dump_cart_item"]
+        try:
+            Cart_Item.objects.filter(id=dump_item).delete()
+            return JsonResponse({"success": f"{dump_item} removed from CartItem db"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+
 # def place_order(request):
 #     if request.is_ajax and request.method == "POST":
 #         pass

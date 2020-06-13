@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'menu.apps.MenuConfig',
     'orders.apps.OrdersConfig',
     'users.apps.UsersConfig',
@@ -129,3 +130,13 @@ LOGIN_REDIRECT_URL = "menu-home"
 LOGIN_URL = "login"
 
 AUTH_USER_MODEL = "users.User"
+
+ASGI_APPLICATION = "pizza.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
